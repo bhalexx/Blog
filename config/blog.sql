@@ -56,6 +56,24 @@ CREATE TABLE `comment` (
   `date_insert` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déclencheurs `comment`
+--
+DELIMITER $$
+CREATE TRIGGER `after_delete_comment` AFTER DELETE ON `comment` FOR EACH ROW BEGIN
+  UPDATE blogpost SET nb_comments = nb_comments - 1
+    WHERE id = OLD.blogpost_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `after_insert_comment` AFTER INSERT ON `comment` FOR EACH ROW BEGIN
+  UPDATE blogpost SET nb_comments = nb_comments + 1
+    WHERE id = NEW.blogpost_id;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
