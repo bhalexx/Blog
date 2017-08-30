@@ -1,0 +1,59 @@
+{% extends 'layout.twig.html' %}
+
+{% block headtitle %}
+	Tag : {{ tag.label }}
+{% endblock %}
+
+{% block headerImage %}
+	<div class="cover" style="background-image: url('{{ base_url }}public/img/header.jpg');"></div>
+{% endblock %}
+
+{% block title %}
+	{{ tag.label }}
+{% endblock %}
+
+{% block grip %}
+	Articles correspondant au tag "{{ tag.label }}"
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="small">
+				<a href="{{ base_url }}blog" class="btn btn-default">
+					Retour
+				</a>
+			</div>
+			{% if posts is empty %}
+				<p class="h3 text-center">Oops ! Aucun article n'est associé à ce tag. Revenez plus tard :)</p>
+			{% endif %}
+
+			{% if posts is not empty %}
+				<p class="text-center"><span class="fa fa-tag"></span> Retrouvez ci-dessous les articles associés au tag "{{ tag.label }}".</p>
+				<div class="posts">
+					{% for post in posts %}
+						<div class="col-sm-6 col-md-4 col-lg-4 post">
+							<div class="wrapper">
+								<a href="{{ base_url }}{{ post.url }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.main_picture }}');" class="cover-img">
+								</a>
+								<div class="text">
+									<h3>
+										<a href="{{ base_url }}{{ post.url }}">
+											{{ post.title }}
+										</a>					
+									</h3>
+									<span class="small text-muted">Mis à jour le {{ post.date_update }}</span>
+									<p>{{ post.hook }}</p>
+									<a href="{{ base_url }}{{ post.url }}" class="more">
+										<span class="label label-primary">Lire la suite</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="clear"></div>
+{% endblock %}

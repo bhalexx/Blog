@@ -51,5 +51,19 @@
 				ORDER BY bp.date_insert DESC"
 			);
 		}
+
+		/*
+		 * Gets blogposts by tag
+		 */
+		public function getBlogPostsByTag($tagId) {
+			return $this->query("
+				SELECT tbp.tag_id, bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_update, '%d/%m/%Y') AS date_update, bp.main_picture
+				FROM tag_blogpost AS tbp
+				LEFT JOIN blogpost AS bp ON bp.id = tbp.blogpost_id
+				WHERE bp.visible AND tbp.tag_id = ?
+				ORDER BY bp.date_insert DESC",
+				[$tagId]
+			);
+		}
 	}
 

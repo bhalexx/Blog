@@ -73,7 +73,14 @@
 		 * Likes blogpost by id
 		 */
 		public function like($id) {
-			$this->redirect('blog/post/'.$id);
+			//Get blogpost's data
+			$post = $this->blogpost->getSingleBlogPost($id);
+			//Update blogpost's nb likes
+			$this->blogpost->update($id, [
+				'nb_likes' => $post->nb_likes + 1
+			]);
+			$this->session->setFlash('Merci pour votre like !', 'success');
+			$this->redirect('blog/post/'.$post->id);
 		}
 
 		/*
