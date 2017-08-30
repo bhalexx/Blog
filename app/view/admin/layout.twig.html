@@ -14,6 +14,8 @@
 
         <!-- Custom Fonts -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        {% block style %}{% endblock %}
     </head>
 
     <body style="padding-top: 100px;">
@@ -72,8 +74,6 @@
 
         <!-- Custom scripts -->
         <script src="{{ base_url }}public/js/master.js"></script>
-
-        <!-- SCRIPTS -->
         {% block scripts %}{% endblock %}
     </body>
 </html>

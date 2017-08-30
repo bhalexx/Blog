@@ -5,6 +5,14 @@
 {% block scripts %}
     <script type="text/javascript" src="{{ base_url }}vendor/ckeditor/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="{{ base_url }}public/js/admin/ckeditor.manager.js"></script>
+    
+    <script type="text/javascript" src="{{ base_url }}public/js/lib/select2.min.js"></script>
+    <script type="text/javascript" src="{{ base_url }}public/js/admin/select2.manager.js"></script>
+    <script type="text/javascript" src="{{ base_url }}public/js/admin/blogpost.js"></script>
+{% endblock %}
+
+{% block style %}
+   	<link href="{{ base_url }}public/css/lib/select2.min.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
