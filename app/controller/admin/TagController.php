@@ -23,16 +23,11 @@
 		 */
 		public function add() {
 			if (!empty($_POST)) {
-				//Error handler
-				$formIsValid = true;
-				$errorMessage = null;
+				//Form error handler
+				$formValidation = $this->validateForm($_POST);
 
-				if (empty($_POST['label'])) {
-					$errorMessage = "Le nom du tag est obligatoire.";
-					$formIsValid = false;
-				}
-
-				if (!$formIsValid) {
+				//Form is not valid
+				if (!$formValidation['valid']) {
 					$this->session->setFlash($errorMessage, 'error');
 				} else {
 					$result = $this->tag->create([
@@ -53,16 +48,11 @@
 		 */
 		public function edit($id) {
 			if (!empty($_POST)) {
-				//Error handler
-				$formIsValid = true;
-				$errorMessage = '';
+				//Form error handler
+				$formValidation = $this->validateForm($_POST);
 
-				if (empty($_POST['label'])) {
-					$errorMessage = "Le nom du tag est obligatoire.";
-					$formIsValid = false;
-				}
-
-				if (!$formIsValid) {
+				//Form is not valid
+				if (!$formValidation['valid']) {
 					$this->session->setFlash($errorMessage, 'error');
 				} else {
 					$result = $this->tag->update($id, [
@@ -91,5 +81,23 @@
 				$this->session->setFlash('Le tag a bien été supprimé.', 'success');
 				return $this->redirect('admin/tags');
 			}
+		}
+
+		/*
+		 * Validates form
+		 */
+		public function validateForm($data) {
+			$return = [
+				'errorMessage' => null,
+				'valid' => true
+			];
+
+			if (empty($data['label'])) {
+				$return['errorMessage'] = "Le nom du tag est obligatoire.";
+				$return['valid'] = false;
+				return $return;
+			}
+
+			return $return;
 		}
 	}

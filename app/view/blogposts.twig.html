@@ -18,67 +18,49 @@
 
 {% block content %}
 	<div class="row grid">
+		{% if tags is not empty %}
 		<div class="col-xs-12">
-			<div class="posts">
-				
-				<div class="col-sm-6 col-md-4 col-lg-4 post">
-					<div class="wrapper">
-						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
-						</a>
-						<div class="text">
-							<h3>
-								<a href="#">
-									Cat Ipsum
-								</a>					
-							</h3>
-							<span class="small text-muted">Mis à jour le 30/08/2017</span>
-							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
-							<a href="{{ base_url }}post/1" class="more">
-								<span class="label label-primary">Lire la suite</span>
-							</a>
+			<h4><span class="fa fa-tags"></span> Tags</h4>
+			<ul class="list-unstyled list-inline col-xs-12">
+				{% for tag in tags %}
+					<li>
+						<a href="{{ base_url }}{{ tag.url }}">
+							<span class="label label-primary">{{ tag.label }}</span>
+						</a>					 
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+		<div class="col-xs-12">
+			{% if posts is empty %}
+				<p class="h3 text-center">Oops ! Aucun article n'a encore été publié. Revenez plus tard :)</p>
+			{% endif %}
+			
+			{% if posts is not empty %}
+				<div class="posts">
+					{% for post in posts %}
+						<div class="col-sm-6 col-md-4 col-lg-4 post">
+							<div class="wrapper">
+								<a href="{{ base_url }}{{ post.url }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.main_picture }}');" class="cover-img">
+								</a>
+								<div class="text">
+									<h3>
+										<a href="{{ base_url }}{{ post.url }}">
+											{{ post.title }}
+										</a>					
+									</h3>
+									<span class="small text-muted">Mis à jour le {{ post.date_update }}</span>
+									<p>{{ post.hook }}</p>
+									<a href="{{ base_url }}{{ post.url }}" class="more">
+										<span class="label label-primary">Lire la suite</span>
+									</a>
+								</div>
+							</div>
 						</div>
-					</div>
+					{% endfor %}
 				</div>
-
-				<div class="col-sm-6 col-md-4 col-lg-4 post">
-					<div class="wrapper">
-						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
-						</a>
-						<div class="text">
-							<h3>
-								<a href="#">
-									Cat Ipsum
-								</a>					
-							</h3>
-							<span class="small text-muted">Mis à jour le 30/08/2017</span>
-							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
-							<a href="{{ base_url }}post/1" class="more">
-								<span class="label label-primary">Lire la suite</span>
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-6 col-md-4 col-lg-4 post">
-					<div class="wrapper">
-						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
-						</a>
-						<div class="text">
-							<h3>
-								<a href="#">
-									Cat Ipsum
-								</a>					
-							</h3>
-							<span class="small text-muted">Mis à jour le 30/08/2017</span>
-							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
-							<a href="{{ base_url }}post/1" class="more">
-								<span class="label label-primary">Lire la suite</span>
-							</a>
-						</div>
-					</div>
-				</div>
-
-			</div>
+			{% endif %}
 		</div>
 	</div>	
 	<div class="clear"></div>
