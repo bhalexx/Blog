@@ -11,6 +11,9 @@
 
         <!-- Custom CSS -->
         <link href="{{ base_url }}public/css/admin/master.css" rel="stylesheet" type="text/css">
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>
 
     <body style="padding-top: 100px;">
@@ -46,6 +49,15 @@
             </div>
         </nav>
 
+        <!-- Alert - Flash Message -->
+        {% if flash is not empty %}
+            <div id="alert" class="alert alert-{{ flash.type }}">
+                <span class="close">×</span>
+                {{ flash.message }}
+            </div>
+        {% endif %}
+        <div class="flash"></div>
+
         <!-- Main Content -->
         <div class="container">
             {% block content %}{% endblock %}
@@ -55,6 +67,9 @@
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>       
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- Custom scripts -->
+        <script src="{{ base_url }}public/js/master.js"></script>  
     </body>
 </html>
