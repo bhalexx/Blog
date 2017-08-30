@@ -1,8 +1,8 @@
 <?php 
 
-	namespace App\Model;
+	namespace Core\Model;
 
-	use App\Database\Database;
+	use Core\Database\Database;
 
 	class Model {
 		protected $model;

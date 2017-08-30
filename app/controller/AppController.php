@@ -3,8 +3,8 @@
 	namespace App\Controller;
 	
 	use \App;
-	use App\Config;	
-	use App\Session;
+	use Core\Config;	
+	use Core\Session;
 
 	class AppController {
 		protected $loader;

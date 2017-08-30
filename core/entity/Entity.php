@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Entity;
+	namespace Core\Entity;
 
 	class Entity {
 		public function __get($key) {

@@ -2,6 +2,8 @@
 
 	namespace App\Model;
 
+	use \Core\Model\Model;
+
 	class TagModel extends Model {
 		/*
 		 * Gets all tags

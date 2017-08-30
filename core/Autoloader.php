@@ -1,6 +1,6 @@
 <?php
 
-	namespace App;
+	namespace Core;
 
 	class Autoloader {
 		public function __construct() {

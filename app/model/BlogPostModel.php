@@ -2,6 +2,8 @@
 
 	namespace App\Model;
 
+	use \Core\Model\Model;
+
 	class BlogPostModel extends Model {
 		/*
 		 * Gets all blogposts
