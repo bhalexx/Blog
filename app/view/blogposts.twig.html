@@ -4,6 +4,82 @@
 	Blog
 {% endblock %}
 
+{% block headerImage %}
+	<div class="cover" style="background-image: url('{{ base_url }}public/img/header.jpg');"></div>
+{% endblock %}
+
+{% block title %}
+	Blog
+{% endblock %}
+
+{% block grip %}
+	Des articles sur les sujets qui me tiennent à cœur
+{% endblock %}
+
 {% block content %}
-	BLOG: LIST
+	<div class="row grid">
+		<div class="col-xs-12">
+			<div class="posts">
+				
+				<div class="col-sm-6 col-md-4 col-lg-4 post">
+					<div class="wrapper">
+						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
+						</a>
+						<div class="text">
+							<h3>
+								<a href="#">
+									Cat Ipsum
+								</a>					
+							</h3>
+							<span class="small text-muted">Mis à jour le 30/08/2017</span>
+							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
+							<a href="{{ base_url }}post/1" class="more">
+								<span class="label label-primary">Lire la suite</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-4 col-lg-4 post">
+					<div class="wrapper">
+						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
+						</a>
+						<div class="text">
+							<h3>
+								<a href="#">
+									Cat Ipsum
+								</a>					
+							</h3>
+							<span class="small text-muted">Mis à jour le 30/08/2017</span>
+							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
+							<a href="{{ base_url }}post/1" class="more">
+								<span class="label label-primary">Lire la suite</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-4 col-lg-4 post">
+					<div class="wrapper">
+						<a href="{{ base_url }}blog/post/1" style="background-image: url('{{ base_url }}public/img/fakeimg.jpg');" class="cover-img">
+						</a>
+						<div class="text">
+							<h3>
+								<a href="#">
+									Cat Ipsum
+								</a>					
+							</h3>
+							<span class="small text-muted">Mis à jour le 30/08/2017</span>
+							<p>Cat ipsum dolor sit amet, attack feet eat the fat cats food.</p>
+							<a href="{{ base_url }}post/1" class="more">
+								<span class="label label-primary">Lire la suite</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>	
+	<div class="clear"></div>
 {% endblock %}
