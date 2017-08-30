@@ -54,6 +54,15 @@
             </div>
         </nav>
 
+        <!-- Alert - Flash Message -->
+        {% if flash is not empty %}
+            <div id="alert" class="alert alert-{{ flash.type }}">
+                <span class="close">×</span>
+                {{ flash.message }}
+            </div>
+        {% endif %}
+        <div class="flash"></div>
+
         <!-- Page Header -->
         <header class="intro-header">
             {% block headerImage %}{% endblock %}
@@ -120,5 +129,8 @@
 
         <!-- Bootstrap Core JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- Custom scripts -->
+        <script src="{{ base_url }}public/js/master.js"></script>
     </body>
 </html>

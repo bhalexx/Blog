@@ -39,5 +39,17 @@
 				true
 			);
 		}
+
+		/*
+		 * Gets visible blogposts
+		 */
+		public function getVisibleBlogPosts() {
+			return $this->query(
+				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_insert, '%d/%m/%Y') AS date_insert, DATE_FORMAT(bp.date_update, '%d/%m/%Y') AS date_update, bp.main_picture, bp.nb_likes, bp.visible, bp.comments_enabled, bp.nb_comments
+				FROM blogpost AS bp
+				WHERE bp.visible
+				ORDER BY bp.date_insert DESC"
+			);
+		}
 	}
 

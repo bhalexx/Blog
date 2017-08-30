@@ -15,4 +15,17 @@
 				ORDER BY c.date_insert"				
 			);
 		}
+
+		/*
+		 * Gets blogpost comments
+		 */
+		public function getBlogPostComments ($blogPostId) {
+			return $this->query(
+				"SELECT c.id, c.content, c.author, DATE_FORMAT(c.date_insert, '%d/%m/%Y à %H:%i') AS date_insert
+				FROM comment AS c
+				WHERE c.published AND c.blogpost_id = ?
+				ORDER BY c.date_insert DESC",
+				[$blogPostId]
+			);
+		}
 	}

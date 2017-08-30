@@ -7,6 +7,6 @@
 		 * Gets url
 		 */
 		public function getUrl() {
-			
+			return 'blog/post/'.$this->id;
 		}
 	}
