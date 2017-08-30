@@ -35,6 +35,8 @@
 			$router->get('/home', 'Home#index');
 			//Blog
 			$router->get('/blog', 'BlogPost#index');
+			//Single blog post
+			$router->get('/blog/post/:id', 'BlogPost#getSingleBlogPost')->with('id', '[0-9]+');
 			//Contact
 			$router->get('/contact', 'Contact#index');
 
