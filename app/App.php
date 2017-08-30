@@ -52,6 +52,8 @@
 			$router->post('/admin/post/delete', 'Admin\BlogPost#delete');
 			//Comments
 			$router->get('/admin/comments', 'Admin\Comment#index');
+			$router->post('/admin/comments/validate', 'Admin\Comment#validate');
+			$router->post('/admin/comments/delete', 'Admin\Comment#delete');
 			//Tags
 			$router->get('/admin/tags', 'Admin\Tag#index');
 			$router->get('/admin/tags/add', 'Admin\Tag#add');
