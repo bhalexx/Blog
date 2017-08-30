@@ -45,6 +45,11 @@
 			$router->get('/admin', 'Admin\Admin#index');
 			//Blog posts
 			$router->get('/admin/posts', 'Admin\BlogPost#index');
+			$router->get('/admin/post/add', 'Admin\BlogPost#add');
+			$router->post('/admin/post/add', 'Admin\BlogPost#add');
+			$router->get('/admin/post/edit/:id', 'Admin\BlogPost#edit')->with('id', '[0-9]+');
+			$router->post('/admin/post/edit/:id', 'Admin\BlogPost#edit')->with('id', '[0-9]+');
+			$router->post('/admin/post/delete', 'Admin\BlogPost#delete');
 			//Comments
 			$router->get('/admin/comments', 'Admin\Comment#index');
 			//Tags

@@ -1,5 +1,61 @@
 {% extends 'admin/layout.twig.html' %}
 
+{% import 'templates/form.twig.html' as form %}
+
 {% block content %}
-	BLOGPOSTS LIST	
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Articles ({{ count }})</h3>
+			<a href="{{ base_url }}admin/post/add" class="btn btn-primary">+ Ajouter</a>
+			
+			{% if posts is empty %}
+				<p class="h3 text-center">Oops ! Aucun article n'a encore été publié. Soyez le premier à en écrire un ! :)</p>
+			{% endif %}
+			
+			{% if posts is not empty %}
+				<table class="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Titre</th>
+							<th class="hidden-xs hidden-sm">Chapô</th>
+							<th>Auteur</th>
+							<th>Dernière modification</th>
+							<th><span class="fa fa-comments-o" title="Commentaires"></span></th>
+							<th><span class="fa fa-heart" title="Likes"></span></th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for post in posts %}
+						<tr>
+							<td>
+								{% if post.visible %}
+									<span class="fa fa-eye" title="Public"></span>
+								{% endif %}
+								{% if not post.visible %}
+									<span class="fa fa-eye-slash" title="Privé"></span>
+								{% endif %}
+							</td>
+							<td>{{ post.title }}</td>
+							<td class="hidden-xs hidden-sm">{{ post.hook | truncate(50) }}</td>
+							<td>{{ post.author }}</td>
+							<td>{{ post.date_update }}</td>
+							<td>{{ post.nb_comments }}</td>
+							<td>{{ post.nb_likes }}</td>
+							<td class="options">
+								<a href="{{ base_url }}admin/post/edit/{{ post.id }}" class="btn btn-warning">Modifier</a>
+								<form method="POST" action="{{ base_url }}admin/post/delete/">
+									{{ form.hiddenInput('id', post.id) }}
+									<button class="btn btn-danger">Supprimer</button>
+								</form>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}		
+		</div>
+	</div>
+	
 {% endblock %}
