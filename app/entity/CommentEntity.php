@@ -7,6 +7,6 @@
 		 * Gets blogpost url
 		 */
 		public function getBlogPostUrl() {
-			
+			return 'blog/post/'.$this->blogpost_id;
 		}
 	}
