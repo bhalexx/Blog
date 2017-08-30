@@ -124,7 +124,7 @@
 					$result = $this->blogpost->update($id, [
 						'title' => htmlspecialchars($_POST['title']),
 						'hook' => htmlspecialchars($_POST['hook']),
-						'content' => $_POST['content'],
+						'content' => htmlspecialchars($_POST['content']),
 						'author' => htmlspecialchars($_POST['author']),
 						'main_picture' => $fileName,
 						'visible' => isset($_POST['visible']),

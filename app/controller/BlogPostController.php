@@ -36,8 +36,8 @@
 			$tags = $this->tag->getTagsFromBlogPost($id);
 
 			//Get blogpost's data
-			$post = $this->blogpost->getSingleBlogPost($id);			
-			
+			$post = $this->blogpost->getSingleBlogPost($id);
+						
 			//Form handler
 			if (!empty($_POST)) {
 				//Form error handler
