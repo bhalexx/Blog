@@ -1,5 +1,40 @@
 {% extends 'admin/layout.twig.html' %}
 
+{% import 'templates/form.twig.html' as form %}
+
 {% block content %}
-	COMMENTS LIST
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Commentaires ({{ count }})</h3>
+			
+			{% if comments is empty %}
+				<p class="h3 text-center">Aucun commentaire n'est en attente de validation.</p>
+			{% endif %}
+			
+			{% if comments is not empty %}
+				{% for comment in comments %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						{{ comment.author }} - <span class="small text-muted">{{ comment.date_insert }}</span>
+					</div>
+					<div class="panel-body">
+						<a href="{{ base_url }}{{ comment.getBlogPostUrl }}" target="_blank" class="text-muted">{{ comment.blogpost_title }}</a>
+						<p>{{ comment.content }}</p>
+					</div>
+					<div class="panel-footer">
+						<form method="POST" action="{{ base_url }}admin/comments/validate">
+							{{ form.hiddenInput('comment_id', comment.id) }}
+							<input type="submit" class="btn btn-success" value="Valider" />
+						</form>
+						<form method="POST" action="{{ base_url }}admin/comments/delete">
+							{{ form.hiddenInput('comment_id', comment.id) }}
+							<input type="submit" class="btn btn-danger" value="Supprimer" />
+						</form>
+					</div>
+				</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+	
 {% endblock %}
