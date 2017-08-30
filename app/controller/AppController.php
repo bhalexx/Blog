@@ -77,7 +77,7 @@
 		 */
 		public function notFound() {
 			header('HTTP/1.0 404 Not Found');
-			die("Page introuvable");
+			$this->redirect('error/404');
 		}
 
 		/*

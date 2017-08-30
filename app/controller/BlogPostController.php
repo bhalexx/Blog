@@ -37,6 +37,11 @@
 
 			//Get blogpost's data
 			$post = $this->blogpost->getSingleBlogPost($id);
+
+			//If post doesn't exist
+			if (!$post) {
+				return $this->notFound();
+			}
 						
 			//Form handler
 			if (!empty($_POST)) {
