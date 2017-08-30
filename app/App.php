@@ -66,6 +66,10 @@
 			$router->post('/admin/tags/edit/:id', 'Admin\Tag#edit')->with('id', '[0-9]+');
 			$router->post('/admin/tags/delete', 'Admin\Tag#delete');
 
+			//ERROR
+			$router->get('/error/404', 'Error#notFound');
+			$router->get('/error/403', 'Error#forbidden');
+
 			$router->run();
 		}
 

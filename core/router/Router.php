@@ -2,13 +2,17 @@
 	
 	namespace Core\Router;
 
+	use \App\Controller\Error;
+
 	class Router {
 		private $url;
 		private $routes = [];
 		private $namedRoutes = [];
+		private $error;
 
 		public function __construct($url) {
 			$this->url = $url;
+			$this->error = new \App\Controller\ErrorController();
 		}
 
 		/*
@@ -49,7 +53,8 @@
 		 */
 		public function run() {
 			if (!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
-				throw new RouterException('REQUEST_METHOD does not exist');
+				$this->error->notFound();
+				//throw new RouterException('REQUEST_METHOD does not exist');
 			}
 
 			$askedRoute = '';
@@ -61,7 +66,8 @@
 				}
 			}
 
-			throw new RouterException('No matching route '. $askedRoute->url);
+			$this->error->notFound();
+			// throw new RouterException('No matching route '. $askedRoute->url);
 		}
 
 		/*
@@ -69,7 +75,8 @@
 		 */
 		public function url($routeName, $params = []) {
 			if (!isset($this->namedRoutes[$routeName])) {
-				throw new RouterException('No matching route with this name');
+				$this->error->notFound();
+				// throw new RouterException('No matching route with this name');
 			}
 			return $this->namedRoutes[$routeName]->getUrl($params);
 		}

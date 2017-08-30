@@ -1,0 +1,25 @@
+{% extends 'layout.twig.html' %}
+
+{% block headtitle %}
+	Accès interdit
+{% endblock %}
+
+{% block headerImage %}
+	<div class="cover" style="background-image: url('{{ base_url }}public/img/header.jpg');"></div>
+{% endblock %}
+
+{% block title %}
+	Oops
+{% endblock %}
+
+{% block grip %}
+	Vous êtes perdu(e) ?
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-xs-12">
+			Vous n'êtes pas autorisé(e) à consulter cette page.
+		</div>
+	</div>
+{% endblock %}
