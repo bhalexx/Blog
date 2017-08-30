@@ -1,0 +1,16 @@
+{% extends 'admin/layout.twig.html' %}
+
+{% import 'templates/form.twig.html' as form %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Ajouter un tag</h3>
+			<hr />
+			<form method="POST" action="" class="form">
+				{{ form.input('label', 'Nom du tag', { class: 'col-xs-12', value: tag.label }) }}
+				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+			</form>
+		</div>
+	</div>	
+{% endblock %}

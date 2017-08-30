@@ -1,0 +1,66 @@
+{% macro input(name, label, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<label for="{{ name }}">{{ label }}</label>
+		<input type="{{ options.type | default('text') }}" name="{{ name }}" class="form-control {{ options.inputClass }}" value="{{ options.value }}" />
+	</div>
+{% endmacro %}
+
+{% macro hiddenInput(name, value) %}
+	<input type="hidden" name="{{ name }}" value="{{ value }}" />
+{% endmacro %}
+
+{% macro submit(text, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<input type="submit" value="{{ text }}" class="{{ options.inputClass }}" />
+	</div>
+{% endmacro%}
+
+{% macro textarea(name, label, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<label for="{{ name }}">{{ label }}</label>
+		<textarea name="{{ name }}" class="form-control">{{ options.value }}</textarea>
+	</div>
+{% endmacro %}
+
+{% macro checkbox(name, label, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<label for="{{ name }}">
+			<input type="checkbox" name="{{ name }}" {{ options.checked ? 'checked' : '' }} />
+			{{ label }}
+		</label>
+	</div>
+{% endmacro %}
+
+{% macro select(name, label, selectOptions, keyName, valueName, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<label for="{{ name }}">{{ label }}</label>
+		<select name="{{ name }}{{ options.multiple ? "[]" : "" }}" class="form-control" {{ options.multiple ? "multiple" : "" }}>
+			{% if options.insertBlank %}
+			<option selected="true"></option>
+			{% endif %}
+			{% if options.placeholder %}
+			<option selected="true" value="{{ options.placeholderValue }}">{{ options.placeholder }}</option>
+			{% endif %}
+			{% for option in selectOptions %}
+				<option value="{{ attribute(option, keyName) }}" {{ option.selected ? 'selected' : "" }}>{{ attribute(option, valueName) }}</option>
+			{% endfor %}
+		</select>
+	</div>
+{% endmacro %}
+
+{% macro selectFromSimpleArray(name, label, selectOptions, options = []) %}
+	<div class="form-group {{ options.class }}">
+		<label for="{{ name }}">{{ label }}</label>
+		<select name="{{ name }}{{ options.multiple ? "[]" : "" }}" class="form-control" {{ options.multiple ? "multiple" : "" }}>
+			{% if options.insertBlank %}
+			<option selected="true"></option>
+			{% endif %}
+			{% if options.placeholder %}
+			<option selected="true">{{ options.placeholder }}</option>
+			{% endif %}
+			{% for option in selectOptions %}
+				<option value="{{ option }}">{{ option }}</option>
+			{% endfor %}
+		</select>
+	</div>
+{% endmacro %}

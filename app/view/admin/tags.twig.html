@@ -1,5 +1,41 @@
 {% extends 'admin/layout.twig.html' %}
 
+{% import 'templates/form.twig.html' as form %}
+
 {% block content %}
-	TAGS LIST
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Tags ({{ count }})</h3>
+			<a href="{{ base_url }}admin/tags/add" class="btn btn-primary">+ Ajouter</a>
+			
+			{% if tags is empty %}
+				<p class="h3 text-center">Aucun tag enregistré pour le moment.</p>
+			{% endif %}
+			
+			{% if tags is not empty %}
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for tag in tags %}
+						<tr>
+							<td>{{ tag.label }}</td>
+							<td class="options">
+								<a href="{{ base_url }}admin/tags/edit/{{ tag.id }}" class="btn btn-warning">Modifier</a>
+								<form method="POST" action="{{ base_url }}admin/tags/delete/">
+									{{ form.hiddenInput('id', tag.id) }}
+									<button class="btn btn-danger">Supprimer</button>
+								</form>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}
