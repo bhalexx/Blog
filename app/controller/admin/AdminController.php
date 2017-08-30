@@ -9,6 +9,9 @@
 		 * Returns dashboard
 		 */
 		public function index() {
-			$this->render('admin/dashboard.twig.html');
+			$this->loadModel('comment');
+			$commentsCount = $this->comment->getNewCommentsCount();
+			
+			$this->render('admin/dashboard.twig.html', ['commentsCount' => $commentsCount]);
 		}
 	}

@@ -1,5 +1,48 @@
 {% extends 'admin/layout.twig.html' %}
 
 {% block content %}
-	DASHBOARD
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Articles
+				</div>
+				<div class="panel-body">
+					Ajouter, modifier ou supprimer des articles.
+				</div>
+				<div class="panel-footer">
+					<a href="{{ base_url }}admin/posts">Choisir</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Commentaires
+					<div class="badge">
+						{{ commentsCount }}
+					</div>
+				</div>
+				<div class="panel-body">
+					Valider ou supprimer des commentaires.
+				</div>
+				<div class="panel-footer">
+					<a href="{{ base_url }}admin/comments">Choisir</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Tags
+				</div>
+				<div class="panel-body">
+					Ajouter, modifier ou supprimer des tags.
+				</div>
+				<div class="panel-footer">
+					<a href="{{ base_url }}admin/tags">Choisir</a>
+				</div>
+			</div>
+		</div>
+	</div>	
 {% endblock %}

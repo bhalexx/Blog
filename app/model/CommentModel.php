@@ -30,4 +30,15 @@
 				[$blogPostId]
 			);
 		}
+
+		/*
+		 * Gets new comments count
+		 */
+		public function getNewCommentsCount () {
+			return $this->queryCount(
+				"SELECT COUNT(*) AS count
+				FROM comment AS c
+				WHERE NOT c.published"		
+			);
+		}
 	}
