@@ -1,0 +1,28 @@
+{% extends 'admin/layout.twig.html' %}
+
+{% import 'templates/form.twig.html' as form %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ base_url }}vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="{{ base_url }}public/js/admin/ckeditor.manager.js"></script>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Ajouter un article</h3>
+			<hr />
+			<form method="POST" action="" class="form" enctype="multipart/form-data">
+				{{ form.input('title', 'Titre de l\'article', { class: 'col-xs-12', value: data.title }) }}
+				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: data.hook }) }}
+				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: data.content }) }}
+				{{ form.input('author', 'Auteur', { class: 'col-xs-12', value: data.author }) }}
+				{{ form.input('picture', 'Image principale', { type: 'file', class: 'col-xs-12', inputClass: 'required' }) }}
+				{{ form.select('tags', 'Tags', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
+				{{ form.checkbox('visible', 'Rendre public', { class: 'col-xs-12', checked: data.visible }) }}
+				{{ form.checkbox('comments_enabled', 'Activer commentaires', { class: 'col-xs-12', checked: data.comments_enabled }) }}
+				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+			</form>
+		</div>
+	</div>	
+{% endblock %}

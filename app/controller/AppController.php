@@ -13,11 +13,15 @@
 		private $config;
 		protected $baseUrl;
 		protected $session;
+		protected $pictureRepository;
+		protected $allowedExtensions;
 
 		public function __construct() {
 			//Config
 			$this->config = Config::getInstance(ROOT.'/config/ini.php');
 			$this->baseUrl = $this->config->get('base_url');
+			$this->pictureRepository = $this->config->get('picture_repository');
+			$this->allowedExtensions = $this->config->get('allowed_extensions');
 
 			//Session
 			$this->session = new Session();
@@ -32,6 +36,7 @@
 			$this->twig->addExtension(new \Twig_Extension_Debug());
 			$this->twig->addExtension(new \Twig_Extensions_Extension_Text());
 			$this->twig->addGlobal('base_url', $this->baseUrl);
+			$this->twig->addGlobal('picture_repository', $this->pictureRepository);
 		}
 
 		/*
