@@ -3,7 +3,8 @@
 	namespace App\Controller;
 	
 	use \App;
-	use App\Config;
+	use App\Config;	
+	use App\Session;
 
 	class AppController {
 		protected $loader;
@@ -11,11 +12,15 @@
 		private $modelName;
 		private $config;
 		protected $baseUrl;
+		protected $session;
 
 		public function __construct() {
 			//Config
 			$this->config = Config::getInstance(ROOT.'/config/ini.php');
 			$this->baseUrl = $this->config->get('base_url');
+
+			//Session
+			$this->session = new Session();
 
 			//Twig instanciation
 			$this->loader = new \Twig_Loader_Filesystem(dirname(__DIR__).'/view');
