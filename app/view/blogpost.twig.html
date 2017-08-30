@@ -47,9 +47,7 @@
                     </li>
                 {% endfor %}
             </ul>
-            <p>
-                {{ post.content | raw }}
-            </p>
+            {{ post.HTMLContent | raw }}
             <div class="col-xs-6">
                 <a href="{{ base_url }}blog/post/like/{{ post.id }}" class="btn btn-default">
                     <span class="fa fa-heart"></span> J'aime

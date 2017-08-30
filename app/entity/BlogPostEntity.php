@@ -11,4 +11,11 @@
 		public function getUrl() {
 			return 'blog/post/'.$this->id;
 		}
+
+		/*
+		 * Gets HTML content
+		 */
+		public function getHTMLContent() {
+			return htmlspecialchars_decode($this->content);
+		}
 	}
