@@ -15,7 +15,7 @@
 		 */
 		public function index() {
 			$allTags = $this->tag->getAll();
-			$this->render('admin/tags.twig.html', ['tags' => $allTags, 'count' => count($allTags), 'flash' => $this->session->getFlash()]);
+			$this->render('admin/tags.twig.html', ['tags' => $allTags, 'count' => count($allTags), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -28,7 +28,7 @@
 
 				//Form is not valid
 				if (!$formValidation['valid']) {
-					$this->session->setFlash($errorMessage, 'error');
+					$this->session->setFlash($formValidation['errorMessage'], 'error');
 				} else {
 					$result = $this->tag->create([
 						'label' => $_POST['label']
@@ -40,7 +40,7 @@
 					}
 				}
 			}
-			$this->render('admin/tags.add.twig.html', ['flash' => $this->session->getFlash()]);
+			$this->render('admin/tags.add.twig.html', ['flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -53,7 +53,7 @@
 
 				//Form is not valid
 				if (!$formValidation['valid']) {
-					$this->session->setFlash($errorMessage, 'error');
+					$this->session->setFlash($formValidation['errorMessage'], 'error');
 				} else {
 					$result = $this->tag->update($id, [
 						'label' => $_POST['label']
@@ -68,15 +68,18 @@
 			//Get tag's data value
 			$tag = $this->tag->getSingle($id);
 
-			$this->render('admin/tags.edit.twig.html', ['tag' => $tag, 'flash' => $this->session->getFlash()]);
+			$this->render('admin/tags.edit.twig.html', ['tag' => $tag, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
 		 * Deletes a tag
 		 */
 		public function delete() {
-			var_dump($_POST);
 			if (!empty($_POST)) {
+				if (!$this->tokenIsValid($_POST['token'])) {
+					$this->session->setFlash("Vous n'avez pas le droit d'effectuer cette action.", 'error');
+					return $this->redirect('admin/tags');
+				}
 				$this->tag->delete($_POST['id']);
 				$this->session->setFlash('Le tag a bien été supprimé.', 'success');
 				return $this->redirect('admin/tags');
@@ -91,6 +94,12 @@
 				'errorMessage' => null,
 				'valid' => true
 			];
+
+			if (!$this->tokenIsValid($data['token'])) {
+				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
+				$return['valid'] = false;
+				return $return;
+			}
 
 			if (empty($data['label'])) {
 				$return['errorMessage'] = "Le nom du tag est obligatoire.";

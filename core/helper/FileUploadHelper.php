@@ -44,7 +44,7 @@
 
 			//Check file extension
 			if (!in_array($this->getFileExtension($this->file), $this->allowedExtensions)) {
-				$this->error .= "Erreur lors du téléchargement du fichier : extension non autorisée.";
+				$this->error .= "Extension non autorisée.";
 				return false;
 			}
 

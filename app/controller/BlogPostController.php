@@ -45,7 +45,7 @@
 
 				//Form is not valid
 				if (!$formValidation['valid']) {
-					$this->session->setFlash($errorMessage, 'error');
+					$this->session->setFlash($formValidation['errorMessage'], 'error');
 				} else {
 					$result = $this->comment->create([
 						'author' => htmlspecialchars($_POST['author']),
@@ -66,7 +66,7 @@
 				$comments = $this->comment->getBlogPostComments($post->id);
 			}
 
-			$this->render('blogpost.twig.html', ['post' => $post, 'tags' => $tags, 'comments' => $comments, 'flash' => $this->session->getFlash()]);
+			$this->render('blogpost.twig.html', ['post' => $post, 'tags' => $tags, 'comments' => $comments, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -91,6 +91,12 @@
 				'errorMessage' => null,
 				'valid' => true
 			];
+
+			if (!$this->tokenIsValid($_POST['token'])) {
+				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
+				$return['valid'] = false;
+				return $return;
+			}
 
 			if (empty($data['author'])) {
 				$return['errorMessage'] = "L'auteur est obligatoire.";

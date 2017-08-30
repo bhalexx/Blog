@@ -28,6 +28,7 @@
 								<a href="{{ base_url }}admin/tags/edit/{{ tag.id }}" class="btn btn-warning">Modifier</a>
 								<form method="POST" action="{{ base_url }}admin/tags/delete/">
 									{{ form.hiddenInput('id', tag.id) }}
+									{{ form.hiddenInput('token', token) }}
 									<button class="btn btn-danger">Supprimer</button>
 								</form>
 							</td>

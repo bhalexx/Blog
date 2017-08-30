@@ -8,6 +8,21 @@
 		}
 
 		/*
+		 * Sets CSRF token
+		 */
+		public function setToken($token) {
+			print 'setToken';
+			$_SESSION['token'] = $token;
+		}
+
+		/*
+		 * Gets CSRF token
+		 */
+		public function getToken() {
+			return $_SESSION['token'];
+		}
+
+		/*
 		 * Sets flash feedback
 		 */
 		public function setFlash($message, $type = 'error') {
