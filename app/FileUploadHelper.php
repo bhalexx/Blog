@@ -12,8 +12,10 @@
 		
 		public function __construct($file, $destinationFolder, $allowedExtensions) {
 			$this->file = $file;
-			// $this->destinationFolder = $_SERVER['DOCUMENT_ROOT'].'/oc/php/blog/'.$destinationFolder;
 			$this->destinationFolder = ROOT.'/'.$destinationFolder;
+			if (!is_dir($this->destinationFolder)) {
+			    mkdir($this->destinationFolder, 0777, true);
+			}
 			$this->setAllowedExtensions($allowedExtensions);
 			$this->extension = $this->getFileExtension($this->file);
 			$this->fileName = time().'.'.$this->extension;
@@ -52,14 +54,12 @@
 			// }
 
 		    // Move file
-		    // if (!file_exists($this->destinationFolder.$this->fileName)) {
-			    if (move_uploaded_file($this->file['tmp_name'], $this->destinationFolder.$this->fileName)) {
-			        return true;
-			    } else {
-			        $this->error .= "Échec de l'enregistrement du fichier sur le serveur.";			        
-					return false;
-			    }
-			// }
+		    if (move_uploaded_file($this->file['tmp_name'], $this->destinationFolder.$this->fileName)) {
+		        return true;
+		    } else {
+		        $this->error .= "Échec de l'enregistrement du fichier sur le serveur.";			        
+				return false;
+		    }
 		}
 
 		/*
