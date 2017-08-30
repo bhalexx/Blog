@@ -49,6 +49,11 @@
 			$router->get('/admin/comments', 'Admin\Comment#index');
 			//Tags
 			$router->get('/admin/tags', 'Admin\Tag#index');
+			$router->get('/admin/tags/add', 'Admin\Tag#add');
+			$router->post('/admin/tags/add', 'Admin\Tag#add');
+			$router->get('/admin/tags/edit/:id', 'Admin\Tag#edit')->with('id', '[0-9]+');
+			$router->post('/admin/tags/edit/:id', 'Admin\Tag#edit')->with('id', '[0-9]+');
+			$router->post('/admin/tags/delete', 'Admin\Tag#delete');
 
 			$router->run();
 		}

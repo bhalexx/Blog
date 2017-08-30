@@ -1,0 +1,33 @@
+/* MIXINS */
+.clear {
+  float: none !important;
+  clear: both !important; }
+
+footer {
+  margin-top: 120px; }
+
+#alert {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+  -webkit-transition: all, 0.8s;
+  -moz-transition: all, 0.8s;
+  transition: all, 0.8s; }
+  #alert.shown {
+    top: 0; }
+  #alert.alert-success {
+    border-color: #19B99A;
+    background: #20A286;
+    color: #fff; }
+  #alert.alert-error {
+    border-color: #B63E5A;
+    background: #E26868;
+    color: #fff; }
+
+td.options a, td.options form {
+  display: inline-block; }
+
+.panel-footer > form {
+  display: inline-block; }
