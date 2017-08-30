@@ -2,6 +2,8 @@
 
 	namespace App\Model;
 
+	use \Core\Model\Model;
+
 	class CommentModel extends Model {
 		/*
 		 * Gets new comments

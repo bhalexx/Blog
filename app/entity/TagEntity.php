@@ -2,6 +2,8 @@
 
 	namespace App\Entity;
 
+	use \Core\Entity\Entity;
+
 	class TagEntity extends Entity {
 		/*
 		 * Gets url

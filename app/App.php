@@ -2,10 +2,10 @@
 
 	namespace App;
 	
-	use App\Autoloader;
-	use App\Config;
-	use App\Database\MySQLDatabase;
-	use App\Router\Router;
+	use Core\Autoloader;
+	use Core\Config;
+	use Core\Database\MySQLDatabase;
+	use Core\Router\Router;
 
 	class App {
 		private $db_instance;
@@ -24,7 +24,7 @@
 		 */
 		public static function load() {
 			require ROOT.'/vendor/autoload.php';
-			require ROOT.'/app/Autoloader.php';
+			require ROOT.'/core/Autoloader.php';
 			Autoloader::register();
 
 			$router = new Router($_GET['url']);

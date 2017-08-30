@@ -2,6 +2,8 @@
 
 	namespace App\Entity;
 
+	use \Core\Entity\Entity;
+
 	class CommentEntity extends Entity {
 		/*
 		 * Gets blogpost url
