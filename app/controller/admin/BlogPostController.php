@@ -3,6 +3,7 @@
 	namespace App\Controller\Admin;
 
 	use App\Controller\AppController;
+	use App\Entity;
 	use Core\Helper\FileUploadHelper;
 
 	class BlogPostController extends AppController {
