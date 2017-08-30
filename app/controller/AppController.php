@@ -37,6 +37,12 @@
 			$this->twig->addExtension(new \Twig_Extensions_Extension_Text());
 			$this->twig->addGlobal('base_url', $this->baseUrl);
 			$this->twig->addGlobal('picture_repository', $this->pictureRepository);
+
+			//Token (avoid CSRF)
+			if (is_null($this->session->getToken())) {
+				$token = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+				$this->session->setToken($token);				
+			}
 		}
 
 		/*
@@ -80,5 +86,12 @@
 		public function forbidden() {
 			header('HTTP/1.0 403 Forbidden');
 			die('Accès interdit !');
+		}
+
+		/*
+		 * Gets whether posted token is same as session token
+		 */
+		public function tokenIsValid($token) {
+			return !empty($_POST['token']) && $_POST['token'] === $this->session->getToken();
 		}
 	}

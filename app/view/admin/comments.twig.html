@@ -24,10 +24,12 @@
 					<div class="panel-footer">
 						<form method="POST" action="{{ base_url }}admin/comments/validate">
 							{{ form.hiddenInput('comment_id', comment.id) }}
+							{{ form.hiddenInput('token', token) }}
 							<input type="submit" class="btn btn-success" value="Valider" />
 						</form>
 						<form method="POST" action="{{ base_url }}admin/comments/delete">
 							{{ form.hiddenInput('comment_id', comment.id) }}
+							{{ form.hiddenInput('token', token) }}
 							<input type="submit" class="btn btn-danger" value="Supprimer" />
 						</form>
 					</div>

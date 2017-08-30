@@ -29,6 +29,7 @@
 				{{ form.select('tags', 'Tags', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
 				{{ form.checkbox('visible', 'Rendre public', { class: 'col-xs-12', checked: data.visible }) }}
 				{{ form.checkbox('comments_enabled', 'Activer commentaires', { class: 'col-xs-12', checked: data.comments_enabled }) }}
+				{{ form.hiddenInput('token', token) }}
 				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
 			</form>
 		</div>

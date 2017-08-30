@@ -47,6 +47,7 @@
 								<a href="{{ base_url }}admin/post/edit/{{ post.id }}" class="btn btn-warning">Modifier</a>
 								<form method="POST" action="{{ base_url }}admin/post/delete/">
 									{{ form.hiddenInput('id', post.id) }}
+									{{ form.hiddenInput('token', token) }}
 									<button class="btn btn-danger">Supprimer</button>
 								</form>
 							</td>

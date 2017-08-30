@@ -69,28 +69,29 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <h3 class="section-heading">Commentaires ({{ post.nb_comments }})</h3>            
-                    {% if comments is empty %}
-                        <p class="h4">Cet article ne comporte encore aucun commentaire. Soyez le premier à en écrire un :)</p>                
-                    {% endif %}
+                {% if comments is empty %}
+                    <p class="h4">Cet article ne comporte encore aucun commentaire. Soyez le premier à en écrire un :)</p>                
+                {% endif %}
 
-                    <ul class="list-unstyled">
-                        {% for comment in comments %}
-                            <li>
-                                <hr/>
-                                <span>
-                                    <b>{{ comment.author }}</b><span class="small text-muted"> - {{ comment.date_insert }}</span>
-                                </span><br/>
-                                <span>{{ comment.content }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <hr />
-                    <form method="POST" action="">
-                        {{ form.input('author', 'Votre nom/pseudo' ) }}
-                        {{ form.textarea('content', 'Votre commentaire') }}
-                        {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
-                    </form>
-                    <hr />          
+                <ul class="list-unstyled">
+                    {% for comment in comments %}
+                        <li>
+                            <hr/>
+                            <span>
+                                <b>{{ comment.author }}</b><span class="small text-muted"> - {{ comment.date_insert }}</span>
+                            </span><br/>
+                            <span>{{ comment.content }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <hr />
+                <form method="POST" action="">
+                    {{ form.input('author', 'Votre nom/pseudo' ) }}
+                    {{ form.textarea('content', 'Votre commentaire') }}
+                    {{ form.hiddenInput('token', token) }}
+                    {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
+                </form>
+                <hr />          
             </div>
         </div>
     {% endif %}  

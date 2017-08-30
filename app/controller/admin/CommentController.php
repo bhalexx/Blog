@@ -15,7 +15,7 @@
 		 */
 		public function index() {
 			$allNewComments = $this->comment->getNewComments();
-			$this->render('admin/comments.twig.html', ['comments' => $allNewComments, 'count' => count($allNewComments), 'flash' => $this->session->getFlash()]);
+			$this->render('admin/comments.twig.html', ['comments' => $allNewComments, 'count' => count($allNewComments), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -28,7 +28,7 @@
 
 				//Form is not valid
 				if (!$formValidation['valid']) {
-					$this->session->setFlash($errorMessage, 'error');
+					$this->session->setFlash($formValidation['errorMessage'], 'error');
 					return $this->redirect('admin/comments');
 				} else {
 					$result = $this->comment->update($_POST['comment_id'], [
@@ -53,7 +53,7 @@
 
 				//Form is not valid
 				if (!$formValidation['valid']) {
-					$this->session->setFlash($errorMessage, 'error');
+					$this->session->setFlash($formValidation['errorMessage'], 'error');
 					return $this->redirect('admin/comments');
 				} else {
 					$result = $this->comment->delete($_POST['comment_id']);
@@ -74,6 +74,12 @@
 				'errorMessage' => null,
 				'valid' => true
 			];
+
+			if (!$this->tokenIsValid($data['token'])) {
+				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
+				$return['valid'] = false;
+				return $return;
+			}
 
 			if (empty($data['comment_id'])) {
 				$return['errorMessage'] = "Une erreur est survenue. L'id du commentaire ne peut être manquant.";

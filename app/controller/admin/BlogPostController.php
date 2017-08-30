@@ -18,7 +18,7 @@
 		public function index() {
 			$allBlogPosts = $this->blogpost->getAll();
 			
-			$this->render('admin/blogpost.twig.html', ['posts' => $allBlogPosts, 'count' => count($allBlogPosts), 'flash' => $this->session->getFlash()]);
+			$this->render('admin/blogpost.twig.html', ['posts' => $allBlogPosts, 'count' => count($allBlogPosts), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -44,7 +44,7 @@
 					$upload = $file->upload();
 					if (!$upload) {
 						$this->session->setFlash($file->error, 'error');
-						return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash()]);
+						return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 					}
 					$fileName = $file->fileName;
 					//Insert blogpost in database
@@ -70,7 +70,7 @@
 				}
 			}
 			
-			$this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash()]);
+			$this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -114,7 +114,7 @@
 						$upload = $file->upload();
 						if (!$upload) {
 							$this->session->setFlash($file->error, 'error');
-							return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash()]);
+							return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 						}
 						$fileName = $file->fileName;
 					} else {
@@ -143,7 +143,7 @@
 				}
 			}
 
-			$this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'flash' => $this->session->getFlash()]);
+			$this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*
@@ -151,6 +151,11 @@
 		 */
 		public function delete() {
 			if (!empty($_POST)) {
+				if (empty($_POST['token']) || $_POST['token'] !== $this->session->getToken()) {
+					$this->session->setFlash("Vous n'avez pas le droit d'effectuer cette action.", 'error');
+					return $this->redirect('admin/posts');
+				}
+
 				//Remove blogpost's picture file
 				$file = $this->blogpost->getMainPicture($_POST['id']);
 				$fileHelper = new FileUploadHelper($file->main_picture, $this->pictureRepository, $this->allowedExtensions);
@@ -184,6 +189,12 @@
 				'errorMessage' => null,
 				'valid' => true
 			];
+
+			if (!$this->tokenIsValid($_POST['token'])) {
+				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
+				$return['valid'] = false;
+				return $return;
+			}
 
 			if (empty($_POST['title'])) {
 				$return['errorMessage'] = "Le titre est obligatoire.";
