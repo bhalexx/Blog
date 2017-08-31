@@ -10,6 +10,16 @@
 		 */
 		public function getAll() {
 			return $this->query(
+				"SELECT id, label
+				FROM tag"
+			);
+		}
+
+		/*
+		 * Gets all tags with count blogpost
+		 */
+		public function getAllWithCountBlogPost() {
+			return $this->query(
 				"SELECT t.id, t.label, COUNT(tbp.tag_id) AS 'nb_blogposts'
 				FROM tag AS t
 				LEFT JOIN tag_blogpost AS tbp ON tbp.tag_id = t.id

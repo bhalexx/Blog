@@ -85,7 +85,7 @@
 			$selectedTags = $this->tag->getTagsFromBlogPost($id);
 			//Get tags list
 			$tags = $this->tag->getAll();
-
+			
 			//Build tags list by comparing full tags list with blogpost's selected tags
 			$tagsList = [];
 			foreach ($tags as $tag) {
@@ -110,12 +110,12 @@
 					$pictureHasChanged = !$this->pictureIsMissing();
 					if ($pictureHasChanged) {
 						$file = new FileUploadHelper($_FILES['picture'], $this->pictureRepository, $this->allowedExtensions);
-						$file->delete($post->main_picture);
 						$upload = $file->upload();
 						if (!$upload) {
 							$this->session->setFlash($file->error, 'error');
-							return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
+							return $this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 						}
+						$file->delete($post->main_picture);
 						$fileName = $file->fileName;
 					} else {
 						$fileName = $post->main_picture;
