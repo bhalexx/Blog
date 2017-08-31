@@ -16,6 +16,79 @@
 	Un cocktail de passion et de rigueur pour vos sites web
 {% endblock %}
 
+{% block scripts %}
+    <script type="text/javascript" src="{{ base_url }}public/js/contact.js"></script>
+{% endblock %}
+
 {% block content %}
-    HOME
+	<div class="home">
+	    <div class="row">
+	        <div class="col-xs-12">
+	    		<h2>Qui suis-je ?</h2>
+	    		<div class="col-md-3 col-lg-3">
+	    			<div class="avatar"></div>
+	    		</div>
+	    		<div class="col-md-9 col-lg-9">
+		    		<p>
+		    			Après de (trop) longues années à essayer de trouver le domaine qui me passionne assez pour en faire mon métier, je finis par découvrir les joies du code en 2012, lors d'une formation accélérée (6 mois) en développement web, à l'école <a href="http://www.objectif3w.com/" target="_blank">Objectif 3D</a>. J'y ai appris les bases de <b>PHP</b> et <b>MySQL</b>, pour ensuite continuer d'apprendre en autodidacte.<br/>
+		    			Aujourd'hui encore, après diverses expériences en agences et à mon compte, je continue de parfaire mes connaissances. C'est en mai 2017 que je franchis le pas, et décide d'approfondir mes compétences en PHP, et de faire de la <b>programmation orientée objet</b> mon amie, grâce au parcours « <em>Développeuse d'application PHP/Symfony</em> » d'<a href="https://openclassrooms.com/" target="_blank">OpenClassRooms</a>.
+		    		</p>		    		
+	    		</div>
+	    		<div class="text-center">
+	    			<a href="{{ base_url }}public/files/Dubreucq_Alexandra_CV.pdf" target="_blank" class="btn btn-default">
+		    			<span class="fa fa-file-pdf-o"></span> Télécharger mon CV
+		    		</a>
+	    		</div>
+	        </div>
+	    </div>
+	    <div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+				<hr/>
+			</div>
+	    </div>
+	    <div class="row">
+	        <div class="col-xs-12">
+	    		<h2>Suivez-moi</h2>
+	    		<div class="text-center">
+		    		<ul class="list-unstyled list-inline">
+		       			<li>
+			                <a href="https://github.com/bhalexx/" target="_blank">
+			                    <span class="fa-stack fa-2x">
+			                        <i class="fa fa-circle fa-stack-2x"></i>
+			                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+			                    </span>
+			                </a>
+			            </li>
+			            <li>
+			                <a href="https://fr.linkedin.com/in/alexsandrad" target="_blank">
+			                    <span class="fa-stack fa-2x">
+			                        <i class="fa fa-circle fa-stack-2x"></i>
+			                        <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+			                    </span>
+			                </a>
+			            </li>
+			            <li>
+			                <a href="http://fr.viadeo.com/fr/profile/alexandra.dubreucq" target="_blank">
+			                    <span class="fa-stack fa-2x">
+			                        <i class="fa fa-circle fa-stack-2x"></i>
+			                        <i class="fa fa-viadeo fa-stack-1x fa-inverse"></i>
+			                    </span>
+			                </a>
+			            </li>
+		       		</ul>
+	    		</div>
+	        </div>
+	    </div>
+	    <div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+				<hr/>
+			</div>
+	    </div>
+	    <div class="row">
+	        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+	    		<h2>Contactez-moi</h2>
+	    		{% include "templates/contact.form.twig.html" with {'url': 'home'} %}
+	    	</div>
+	    </div>
+	</div>
 {% endblock %}

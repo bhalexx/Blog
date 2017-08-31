@@ -63,7 +63,7 @@
 				}
 			}
 
-			$this->redirect('contact');
+			$this->redirect($_POST['url']);
 		}
 
 		/*

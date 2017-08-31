@@ -26,13 +26,7 @@
 	<div class="row">
         <div class="col-md-10 col-lg-8">
         	<p>Remplissez le formulaire ci-dessous, je vous répondrai dans un délai record :)</p>
-        	<form method="POST" action="contact/sendMail" class="form">
-        		{{ form.input('name', 'Votre nom') }}
-        		{{ form.input('mail', 'Votre adresse email', { type: 'email' } ) }}
-                {{ form.textarea('message', 'Votre message') }}
-                {{ form.hiddenInput('token', token) }}
-                {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
-        	</form>
+        	{% include "templates/contact.form.twig.html" with { 'url': 'contact' } %}
        	</div>
        	<div class="col-md-2 col-lg-4">
        		<p>Vous pouvez aussi me suivre sur :</p>
