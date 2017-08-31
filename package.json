@@ -8,10 +8,6 @@
   },
   "author": "Bhalexx",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bhalexx/blog.git"
-  },
   "devDependencies": {
     "gulp-clean-css": "^3.7.0",
     "gulp-concat": "^2.6.1",
