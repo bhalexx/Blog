@@ -25,8 +25,13 @@ All those libraries are included by NPM (if not already installed on your machin
 2. Import `config/blog.sql` to create your database (MySQL currently used).
 3. In project folder open a new terminal window and execute command line `composer install`.
 4. (You may skip this step if you don't want to use NPM dependencies to edit CSS) Execute command line `npm install` to install all front dependencies.
-5. Your website is ready to be used and customized :)
+5. Edit `config/ini.php` with:
+	* your database login
+	* your `base_url` (root)
+	* your `picture_repository`, where you want to store blogposts' uploaded pictures
+	* the `allowed_extensions` you want to allow
+	* your mail datas (SMTP, mail to)
+	* enable/disable `debug` mode (will catch Exceptions or user feedback)
+6. Your website is ready to be used and customized :)
 
 Have fun!
-
-
