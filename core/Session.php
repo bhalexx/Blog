@@ -11,7 +11,6 @@
 		 * Sets CSRF token
 		 */
 		public function setToken($token) {
-			print 'setToken';
 			$_SESSION['token'] = $token;
 		}
 

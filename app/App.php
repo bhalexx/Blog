@@ -67,8 +67,8 @@
 			$router->post('/admin/tags/delete', 'Admin\Tag#delete');
 
 			//ERROR
-			$router->get('/error/404', 'Error#notFound');
-			$router->get('/error/403', 'Error#forbidden');
+			$router->get('/error/404', 'Error\Error#notFound');
+			$router->get('/error/403', 'Error\Error#forbidden');
 
 			$router->run();
 		}
