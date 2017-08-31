@@ -42,9 +42,11 @@
 						{% for post in posts %}
 						<tr>
 							<td>
-								<a href="{{ base_url }}blog/post/{{ post.id }}" target="_blank" title="Voir l'article">
-									<span class="fa fa-link"></span>
-								</a>
+								{% if post.visible %}
+									<a href="{{ base_url }}blog/post/{{ post.id }}" target="_blank" title="Voir l'article">
+										<span class="fa fa-external-link"></span>
+									</a>
+								{% endif %}
 							</td>
 							<td>
 								{% if post.visible %}

@@ -39,7 +39,7 @@
 			$post = $this->blogpost->getSingleBlogPost($id);
 
 			//If post doesn't exist
-			if (!$post) {
+			if (!$post || !$post->visible) {
 				return $this->notFound();
 			}
 						
