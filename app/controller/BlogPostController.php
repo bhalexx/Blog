@@ -15,7 +15,7 @@
 			//Load tag model
 			$this->loadModel('tag');
 			//Get tags list			
-			$tags = $this->tag->getAll();
+			$tags = $this->tag->getAllWithCountBlogPost();
 
 			//Get last visible posts
 			$lastVisiblePosts = $this->blogpost->getVisibleBlogPosts();

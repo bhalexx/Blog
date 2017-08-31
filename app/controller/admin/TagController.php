@@ -14,7 +14,7 @@
 		 * Returns tags list
 		 */
 		public function index() {
-			$allTags = $this->tag->getAll();
+			$allTags = $this->tag->getAllWithCountBlogPost();
 			$this->render('admin/tags.twig.html', ['tags' => $allTags, 'count' => count($allTags), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
