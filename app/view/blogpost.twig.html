@@ -24,12 +24,12 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <a href="{{ base_url }}blog" class="btn btn-default">Retour</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <div class="text-right">
                 <span class="small text-muted">
                     Par <em>{{ post.author }}</em>
@@ -65,7 +65,7 @@
     {% if post.comments_enabled %}
         <hr />
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <h3 class="section-heading">Commentaires ({{ post.nb_comments }})</h3>            
                 {% if comments is empty %}
                     <p class="h4">Cet article ne comporte encore aucun commentaire. Soyez le premier à en écrire un :)</p>                

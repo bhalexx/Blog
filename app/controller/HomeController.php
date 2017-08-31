@@ -7,6 +7,6 @@
 		 * Returns home page
 		 */
 		public function index() {
-			$this->render('home.twig.html');
+			$this->render('home.twig.html', ['flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 	}

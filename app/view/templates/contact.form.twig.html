@@ -1,0 +1,9 @@
+{% import 'templates/form.twig.html' as form %}
+<form method="POST" action="contact/sendMail" class="form">
+	{{ form.input('name', 'Votre nom') }}
+	{{ form.input('mail', 'Votre adresse email', { type: 'email' } ) }}
+    {{ form.textarea('message', 'Votre message') }}
+    {{ form.hiddenInput('url', url) }}
+    {{ form.hiddenInput('token', token) }}
+    {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
+</form>

@@ -41,11 +41,37 @@ footer {
   left: 0;
   width: 100%; }
 
-.intro-header .site-heading h1, .intro-header .site-heading .subheading, .navbar .navbar-brand, .navbar .navbar-nav li a {
+.intro-header .site-heading h1, .intro-header .site-heading .subheading, .navbar a {
   text-shadow: 1px 3px 3px #383838; }
+
+.navbar a:hover {
+  color: #FFF !important;
+  text-shadow: 1px 5px 3px #383838; }
 
 .grid p {
   margin: 0 0 10px; }
+
+.home h2 {
+  text-align: center;
+  font-weight: 100;
+  text-transform: uppercase;
+  margin-top: 0; }
+
+.home .avatar {
+  background: url("../img/avatar.jpg") no-repeat;
+  background-size: cover;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  margin: 20px auto 10px;
+  border: 2px solid #FFF;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+
+.home .row {
+  margin: 15px -15px; }
 
 .posts .post {
   min-height: 400px;
