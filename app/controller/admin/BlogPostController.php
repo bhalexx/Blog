@@ -160,6 +160,11 @@
 				$file = $this->blogpost->getMainPicture($_POST['id']);
 				$fileHelper = new FileUploadHelper($file->main_picture, $this->pictureRepository, $this->allowedExtensions);
 				$fileHelper->delete($file->main_picture);
+
+				//Remove blogpost's comments
+				$this->loadModel('comment');
+				$this->comment->deleteAllFromBlogPost($_POST['id']);
+
 				//Remove blogpost
 				$this->blogpost->delete($_POST['id']);
 				//Confirmation message
