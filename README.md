@@ -5,14 +5,14 @@ According to project's instructions, this blog is collaborative: anyone can add/
 
 <b>Dependencies</b>
 This website uses some libraries:
-	- Twig
-	- PHPMailer
-	- CKEditor
+Twig
+PHPMailer
+CKEditor
 All those libraries are included by Composer (if not already installed on your machine https://getcomposer.org/download/).
 
 This website also uses some "front" libraries:
-	- Gulp
-	- Sass
+Gulp
+Sass
 All those libraries are included by NPM (if not already installed on your machine https://www.npmjs.com/get-npm).
 
 <b>How to install?</b>
