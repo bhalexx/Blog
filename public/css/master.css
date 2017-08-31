@@ -41,7 +41,7 @@ footer {
   left: 0;
   width: 100%; }
 
-.intro-header .site-heading h1, .intro-header .site-heading .subheading {
+.intro-header .site-heading h1, .intro-header .site-heading .subheading, .navbar .navbar-brand, .navbar .navbar-nav li a {
   text-shadow: 1px 3px 3px #383838; }
 
 .grid p {

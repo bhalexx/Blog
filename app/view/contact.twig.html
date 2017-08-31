@@ -1,11 +1,13 @@
 {% extends 'layout.twig.html' %}
 
+{% import 'templates/form.twig.html' as form %}
+
 {% block headtitle %}
 	Me contacter
 {% endblock %}
 
 {% block headerImage %}
-	<div class="cover" style="background-image: url('{{ base_url }}public/img/header.jpg');"></div>
+	<div class="cover" style="background-image: url('{{ base_url }}public/img/header_contact.jpg');"></div>
 {% endblock %}
 
 {% block title %}
@@ -16,6 +18,53 @@
 	Une question ? Une suggestion ? Dites-moi tout !
 {% endblock %}
 
+{% block scripts %}
+    <script type="text/javascript" src="{{ base_url }}public/js/contact.js"></script>
+{% endblock %}
+
 {% block content %}
-	CONTACT
+	<div class="row">
+        <div class="col-md-10 col-lg-8">
+        	<p>Remplissez le formulaire ci-dessous, je vous répondrai dans un délai record :)</p>
+        	<form method="POST" action="contact/sendMail" class="form">
+        		{{ form.input('name', 'Votre nom') }}
+        		{{ form.input('mail', 'Votre adresse email', { type: 'email' } ) }}
+                {{ form.textarea('message', 'Votre message') }}
+                {{ form.hiddenInput('token', token) }}
+                {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
+        	</form>
+       	</div>
+       	<div class="col-md-2 col-lg-4">
+       		<p>Vous pouvez aussi me suivre sur :</p>
+       		<ul class="list-unstyled">
+       			<li>
+	                <a href="https://github.com/bhalexx/" target="_blank">
+	                    <span class="fa-stack fa-lg">
+	                        <i class="fa fa-circle fa-stack-2x"></i>
+	                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+	                    </span>
+	                    <span>GitHub</span>
+	                </a>
+	            </li>
+	            <li>
+	                <a href="https://fr.linkedin.com/in/alexsandrad" target="_blank">
+	                    <span class="fa-stack fa-lg">
+	                        <i class="fa fa-circle fa-stack-2x"></i>
+	                        <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+	                    </span>
+	                    <span>LinkedIn</span>
+	                </a>
+	            </li>
+	            <li>
+	                <a href="http://fr.viadeo.com/fr/profile/alexandra.dubreucq" target="_blank">
+	                    <span class="fa-stack fa-lg">
+	                        <i class="fa fa-circle fa-stack-2x"></i>
+	                        <i class="fa fa-viadeo fa-stack-1x fa-inverse"></i>
+	                    </span>
+	                    <span>Viadeo</span>
+	                </a>
+	            </li>
+       		</ul>
+       	</div>
+   	</div>
 {% endblock %}

@@ -8,13 +8,19 @@
 
 	class AppController {
 		protected $loader;
-		protected $twig;
-		private $modelName;
-		private $config;
 		protected $baseUrl;
 		protected $session;
 		protected $pictureRepository;
 		protected $allowedExtensions;
+		protected $twig;
+		protected $smtpHost;
+		protected $smtpUsername;
+		protected $smtpPassword;
+		protected $mailTo;
+		protected $mailToName;
+		protected $debug;
+		private $modelName;
+		private $config;
 
 		public function __construct() {
 			//Config
@@ -22,6 +28,12 @@
 			$this->baseUrl = $this->config->get('base_url');
 			$this->pictureRepository = $this->config->get('picture_repository');
 			$this->allowedExtensions = $this->config->get('allowed_extensions');
+			$this->smtpHost = $this->config->get('smtp_host');
+			$this->smtpUsername = $this->config->get('smtp_username');
+			$this->smtpPassword = $this->config->get('smtp_password');
+			$this->mailTo = $this->config->get('mail_to');
+			$this->mailToName = $this->config->get('mail_to_name');
+			$this->debug = $this->config->get('debug');
 
 			//Session
 			$this->session = new Session();
