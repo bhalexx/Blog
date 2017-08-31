@@ -22,3 +22,4 @@ All those libraries are included by NPM (if not already installed on your machin
 4. (You may skip this step if you don't want to use NPM dependencies to edit CSS) Execute command line ```npm install``` to install all front dependencies.
 5. Your website is ready to be used and customized :)
 
+
