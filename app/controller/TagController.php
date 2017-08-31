@@ -16,7 +16,14 @@
 		 */
 		public function showBlogPostsList($id) {
 			$tag = $this->tag->getSingle($id);
+
+			//If tag doesn't exist
+			if (!$tag) {
+				$this->notFound();
+			}
+			
 			$postsList = $this->blogpost->getBlogPostsByTag($id);
+			
 			$this->render('tag.twig.html', ['tag' => $tag, 'posts' => $postsList]);
 		}
 	}

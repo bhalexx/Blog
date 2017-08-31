@@ -76,7 +76,6 @@
 		 * Returns not found HTTP error
 		 */
 		public function notFound() {
-			header('HTTP/1.0 404 Not Found');
 			$this->redirect('error/404');
 		}
 
@@ -84,8 +83,7 @@
 		 * Returns forbidden HTTP error
 		 */
 		public function forbidden() {
-			header('HTTP/1.0 403 Forbidden');
-			die('Accès interdit !');
+			$this->redirect('error/403');	
 		}
 
 		/*

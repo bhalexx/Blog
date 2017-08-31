@@ -2,7 +2,7 @@
 	
 	namespace Core\Router;
 
-	use \App\Controller\Error;
+	use \App\Controller\Error\ErrorController;
 
 	class Router {
 		private $url;
@@ -12,7 +12,6 @@
 
 		public function __construct($url) {
 			$this->url = $url;
-			$this->error = new \App\Controller\ErrorController();
 		}
 
 		/*
@@ -53,7 +52,7 @@
 		 */
 		public function run() {
 			if (!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
-				$this->error->notFound();
+				$this->throwError('404');
 				//throw new RouterException('REQUEST_METHOD does not exist');
 			}
 
@@ -65,9 +64,8 @@
 					$askedRoute = $route;
 				}
 			}
-
-			$this->error->notFound();
-			// throw new RouterException('No matching route '. $askedRoute->url);
+			$this->throwError('404');
+			//throw new RouterException('No matching route '. $askedRoute->url);
 		}
 
 		/*
@@ -75,9 +73,26 @@
 		 */
 		public function url($routeName, $params = []) {
 			if (!isset($this->namedRoutes[$routeName])) {
-				$this->error->notFound();
-				// throw new RouterException('No matching route with this name');
+				$this->throwError('404');
+				//throw new RouterException('No matching route with this name');
 			}
 			return $this->namedRoutes[$routeName]->getUrl($params);
+		}
+
+
+		/*
+		 * Throws error
+		 */
+		public function throwError($errorCode) {
+			$this->error = new ErrorController();
+			
+			switch ($errorCode) {
+				case '404':
+					$this->error->notFound();
+					break;
+				case '403':
+					$this->error->forbidden();
+					break;
+			}			
 		}
 	}
