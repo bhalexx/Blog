@@ -25,7 +25,7 @@
 				{% for tag in tags %}
 					<li>
 						<a href="{{ base_url }}{{ tag.url }}">
-							<span class="label label-primary">{{ tag.label }}</span>
+							<span class="label label-primary">{{ tag.label }} <small>({{ tag.nb_blogposts }})</small></span>
 						</a>					 
 					</li>
 				{% endfor %}

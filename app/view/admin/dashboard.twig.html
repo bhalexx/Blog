@@ -2,10 +2,18 @@
 
 {% block content %}
 	<div class="row">
+		<div class="col-xs-12">
+			<h2>Dashboard</h2>
+			<p>
+				Bienvenue sur la console d'administration du blog. Sélectionnez ci-dessous la section qui vous intéresse.
+			</p>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-lg-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Articles
+					<span class="h4">Articles</span>
 				</div>
 				<div class="panel-body">
 					Ajouter, modifier ou supprimer des articles.
@@ -18,7 +26,7 @@
 		<div class="col-lg-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Commentaires
+					<span class="h4">Commentaires</span>
 					<div class="badge">
 						{{ commentsCount }}
 					</div>
@@ -34,7 +42,7 @@
 		<div class="col-lg-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Tags
+					<span class="h4">Tags</span>
 				</div>
 				<div class="panel-body">
 					Ajouter, modifier ou supprimer des tags.

@@ -19,5 +19,4 @@
 		'mail_to_name'			=> 'yourname',
 		//Debug
 		'debug'					=> false
-
 	);

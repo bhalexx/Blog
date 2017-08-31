@@ -18,23 +18,35 @@
 {% block content %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Modifier un article</h3>
-			<hr />
-			<form method="POST" action="" class="form" enctype="multipart/form-data">
-				{{ form.input('title', 'Titre de l\'article', { class: 'col-xs-12', value: post.title } ) }}
+			<a href="{{ base_url }}admin/posts" class="btn btn-default">
+				<span class="fa fa-list"></span> Retour à la liste
+			</a>
+			<h2>Modifier l'article : {{ post.title }}</h2>
+			<p class="text-right">
+				<small class="text-right">Dernière modification : {{ post.date_update }}</small>
+			</p>
+			<p>
+				Remplissez le formulaire ci-dessous pour modifier un article.
+			</p>
+		</div>
+	</div>
+	<hr />
+	<div class="row blogpost-form">
+		<form method="POST" action="" class="form" enctype="multipart/form-data">
+			<div class="col-md-8 col-lg-9">
+				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: post.title } ) }}
 				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: post.hook }) }}
 				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: post.HTMLContent }) }}
-				{{ form.input('author', 'Auteur', { class: 'col-xs-12', value: post.author }) }}
-				<div class="picture">
-					<img src="{{ base_url }}{{ picture_repository }}{{ post.main_picture }}" class="img-responsive" />
-				</div>
-				{{ form.input('picture', 'Modifier l\'image principale', { type: 'file', class: 'col-xs-12' }) }}
-				{{ form.select('tags', 'Tags', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
-				{{ form.checkbox('visible', 'Rendre public', { class: 'col-xs-12', checked: post.visible }) }}
-				{{ form.checkbox('comments_enabled', 'Activer commentaires', { class: 'col-xs-12', checked: post.comments_enabled }) }}
+				{{ form.select('tags', 'Tags (max. 3)', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
 				{{ form.hiddenInput('token', token) }}
 				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
-			</form>
-		</div>
+			</div>
+			<div class="col-md-4 col-lg-3">
+				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.main_picture, { class: 'filled' }) }}
+				{{ form.input('author', 'Auteur', { value: post.author }) }}
+				{{ form.checkbox('visible', 'Rendre public', { checked: post.visible }) }}
+				{{ form.checkbox('comments_enabled', 'Activer commentaires', { checked: post.comments_enabled }) }}
+			</div>
+		</form>
 	</div>
 {% endblock %}

@@ -5,8 +5,20 @@
 {% block content %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Articles ({{ count }})</h3>
-			<a href="{{ base_url }}admin/post/add" class="btn btn-primary">+ Ajouter</a>
+			<a href="{{ base_url }}admin" class="btn btn-default">
+				<span class="fa fa-tachometer"></span> Dashboard
+			</a>
+			<h2>Articles ({{ count }})</h2>
+			<p>
+				Retrouvez ci-dessous la liste des articles du blog.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<a href="{{ base_url }}admin/post/add" class="btn btn-primary">
+				<span class="fa fa-plus-circle"></span> Ajouter
+			</a>
 			
 			{% if posts is empty %}
 				<p class="h3 text-center">Oops ! Aucun article n'a encore été publié. Soyez le premier à en écrire un ! :)</p>
@@ -17,8 +29,8 @@
 					<thead>
 						<tr>
 							<th></th>
+							<th></th>
 							<th>Titre</th>
-							<th class="hidden-xs hidden-sm">Chapô</th>
 							<th>Auteur</th>
 							<th>Dernière modification</th>
 							<th><span class="fa fa-comments-o" title="Commentaires"></span></th>
@@ -30,6 +42,11 @@
 						{% for post in posts %}
 						<tr>
 							<td>
+								<a href="{{ base_url }}blog/post/{{ post.id }}" target="_blank" title="Voir l'article">
+									<span class="fa fa-link"></span>
+								</a>
+							</td>
+							<td>
 								{% if post.visible %}
 									<span class="fa fa-eye" title="Public"></span>
 								{% endif %}
@@ -38,17 +55,20 @@
 								{% endif %}
 							</td>
 							<td>{{ post.title }}</td>
-							<td class="hidden-xs hidden-sm">{{ post.hook | truncate(50) }}</td>
 							<td>{{ post.author }}</td>
 							<td>{{ post.date_update }}</td>
 							<td>{{ post.nb_comments }}</td>
 							<td>{{ post.nb_likes }}</td>
 							<td class="options">
-								<a href="{{ base_url }}admin/post/edit/{{ post.id }}" class="btn btn-warning">Modifier</a>
+								<a href="{{ base_url }}admin/post/edit/{{ post.id }}" class="btn btn-warning">
+									<span class="fa fa-pencil"></span> Modifier
+								</a>
 								<form method="POST" action="{{ base_url }}admin/post/delete/">
 									{{ form.hiddenInput('id', post.id) }}
 									{{ form.hiddenInput('token', token) }}
-									<button class="btn btn-danger">Supprimer</button>
+									<button class="btn btn-danger">
+										<span class="fa fa-trash"></span> Supprimer
+									</button>
 								</form>
 							</td>
 						</tr>

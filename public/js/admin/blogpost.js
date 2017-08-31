@@ -1,5 +1,41 @@
 (function ($, ckeditor) {
 	$(function() {
+		/**
+		 * Drag'n'drop management
+		 */
+		var fileInput = $('.file-input'),
+			droparea = $('.upload'),
+			readFile = function (input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+
+					reader.onload = function(e) {
+						$('.file-container').removeClass('empty').addClass('filled');
+						$('#preview').css('background-image', 'url(' + e.target.result + ')');
+					}
+
+					reader.readAsDataURL(input.files[0]);
+				}
+			};
+
+		//Highlights drag area on drag enter
+		fileInput.on('dragenter', function () {
+			droparea.addClass('active');
+		});
+		
+		//Gives drag area normal state on drag leave 
+		fileInput.on('dragleave blur drop', function () {
+			droparea.removeClass('active');
+		});
+
+		//On file input change
+		fileInput.on('change', function() {
+			readFile(this);
+		});
+
+      	/**
+         * On form submit
+         */
 		$('form').find('.submit').click(function(event) {
 			event.preventDefault();
 			var title = $('input[name="title"]').val(),

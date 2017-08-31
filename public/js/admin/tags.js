@@ -8,7 +8,7 @@
 
 			if (label.trim() === '') {
 				error = true;
-				errorMessage = "Le label est obligatoire.";
+				errorMessage = "Le nom du tag est obligatoire.";
 			} 
 
 			if (!error) {

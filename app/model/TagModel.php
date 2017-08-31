@@ -10,8 +10,10 @@
 		 */
 		public function getAll() {
 			return $this->query(
-				"SELECT id, label
-				FROM tag"
+				"SELECT t.id, t.label, COUNT(tbp.tag_id) AS 'nb_blogposts'
+				FROM tag AS t
+				LEFT JOIN tag_blogpost AS tbp ON tbp.tag_id = t.id
+				GROUP BY t.id"
 			);
 		}
 

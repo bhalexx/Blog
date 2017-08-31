@@ -18,20 +18,32 @@
 {% block content %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Ajouter un article</h3>
-			<hr />
-			<form method="POST" action="" class="form" enctype="multipart/form-data">
-				{{ form.input('title', 'Titre de l\'article', { class: 'col-xs-12', value: data.title }) }}
+			<a href="{{ base_url }}admin/posts" class="btn btn-default">
+				<span class="fa fa-list"></span> Retour à la liste
+			</a>
+			<h2>Ajouter un article</h2>
+			<p>
+				Remplissez le formulaire ci-dessous pour ajouter un article.
+			</p>
+		</div>
+	</div>
+	<hr />	
+	<div class="row blogpost-form">
+		<form method="POST" action="" class="form" enctype="multipart/form-data">
+			<div class="col-md-8 col-lg-9">
+				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: data.title }) }}
 				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: data.hook }) }}
 				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: data.HTMLContent }) }}
-				{{ form.input('author', 'Auteur', { class: 'col-xs-12', value: data.author }) }}
-				{{ form.input('picture', 'Image principale', { type: 'file', class: 'col-xs-12', inputClass: 'required' }) }}
-				{{ form.select('tags', 'Tags', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
-				{{ form.checkbox('visible', 'Rendre public', { class: 'col-xs-12', checked: data.visible }) }}
-				{{ form.checkbox('comments_enabled', 'Activer commentaires', { class: 'col-xs-12', checked: data.comments_enabled }) }}
+				{{ form.select('tags', 'Tags (max. 3)', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}				
 				{{ form.hiddenInput('token', token) }}
 				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
-			</form>
-		</div>
+			</div>
+			<div class="col-md-4 col-lg-3">
+				{{ form.inputFileImg('picture', 'Image principale', null, { class: 'empty' }) }}
+				{{ form.checkbox('visible', 'Rendre public', { checked: data.visible }) }}
+				{{ form.checkbox('comments_enabled', 'Activer commentaires', { checked: data.comments_enabled }) }}
+				{{ form.input('author', 'Auteur', { value: data.author }) }}
+			</div>
+		</form>
 	</div>	
 {% endblock %}
