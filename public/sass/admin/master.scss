@@ -1,0 +1,45 @@
+@charset 'utf-8';
+@import "../common";
+
+#alert { 
+	position: fixed; top: -100%; left: 0; width: 100%; z-index: 2000; @include transition(all, 0.8s);
+	&.shown { top: 0; }
+	&.alert-success { border-color: #19B99A; background: #20A286; color: #fff;}
+	&.alert-error { border-color: #B63E5A; background: #E26868; color: #fff;}
+}
+
+td.options a, td.options form { display: inline-block; }
+.panel-footer > form { display: inline-block; }
+
+.blogpost-form {
+	.file-container {
+		position: relative; width: 100%; height: 150px; margin-bottom: 50px;
+		input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 125%; opacity: 0; padding: 14px 0; cursor: pointer;}
+		.upload { 
+			@extend .flex-align; width: 100%; height: 100%; border: 2px dashed #383838; background: #e7e7e7; @include border-radius(10px); @include transition(all 0.3s);
+			.icon { font-size: 4em; display: none; @include transition(all 0.3s);}
+			&.active {
+				border-width: 3px;
+				.icon { font-size: 3.5em; }
+			}
+			#preview { display: none; width: 100%; height: 100%; background-size: cover !important; @include border-radius(10px);}
+		}
+		&.empty {
+			.upload .icon { display: block; }
+			#preview { display: none; }
+		}
+		&.filled {
+			.upload .icon { display: none; }
+			#preview { display: block; }
+		}
+	}
+	.checkbox-container {
+		.checkbox {
+			position: absolute; opacity: 0;
+			& + label { position: relative; cursor: pointer; padding: 0;}
+			& + label:before { content: ''; margin-right: 5px; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: #FFF; border: 1px solid #383838; @include border-radius(3px);
+		  	}
+			&:checked + label:after { content: ''; position: absolute; left: 5px; top: 9px; background: #383838; width: 2px; height: 2px; box-shadow: 2px 0 0 #383838, 4px 0 0 #383838, 4px -2px 0 #383838, 4px -4px 0 #383838, 4px -6px 0 #383838, 4px -8px 0 #383838; @include transform(rotate(45deg)); }
+		}
+	}
+}

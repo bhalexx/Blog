@@ -5,8 +5,20 @@
 {% block content %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Tags ({{ count }})</h3>
-			<a href="{{ base_url }}admin/tags/add" class="btn btn-primary">+ Ajouter</a>
+			<a href="{{ base_url }}admin" class="btn btn-default">
+				<span class="fa fa-tachometer"></span> Dashboard
+			</a>
+			<h2>Tags ({{ count }})</h2>
+			<p>
+				Retrouvez ci-dessous la liste des tags du blog.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<a href="{{ base_url }}admin/tags/add" class="btn btn-primary">
+				<span class="fa fa-plus-circle"></span> Ajouter
+			</a>
 			
 			{% if tags is empty %}
 				<p class="h3 text-center">Aucun tag enregistré pour le moment.</p>
@@ -17,6 +29,7 @@
 					<thead>
 						<tr>
 							<th>Nom</th>
+							<th class="text-center">Nombre d'articles</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -24,12 +37,17 @@
 						{% for tag in tags %}
 						<tr>
 							<td>{{ tag.label }}</td>
+							<td class="text-center">{{ tag.nb_blogposts }}</td>
 							<td class="options">
-								<a href="{{ base_url }}admin/tags/edit/{{ tag.id }}" class="btn btn-warning">Modifier</a>
+								<a href="{{ base_url }}admin/tags/edit/{{ tag.id }}" class="btn btn-warning">
+									<span class="fa fa-pencil"></span> Modifier
+								</a>
 								<form method="POST" action="{{ base_url }}admin/tags/delete/">
 									{{ form.hiddenInput('id', tag.id) }}
 									{{ form.hiddenInput('token', token) }}
-									<button class="btn btn-danger">Supprimer</button>
+									<button class="btn btn-danger">
+										<span class="fa fa-trash"></span> Supprimer
+									</button>
 								</form>
 							</td>
 						</tr>

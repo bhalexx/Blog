@@ -1,10 +1,12 @@
 /* MIXINS */
-.clear {
-  float: none !important;
-  clear: both !important; }
+.display-flex, .flex-align {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex; }
 
-footer {
-  margin-top: 120px; }
+.flex-align {
+  align-items: center;
+  justify-content: center; }
 
 #alert {
   position: fixed;

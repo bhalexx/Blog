@@ -9,8 +9,18 @@
 {% block content %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Ajouter un tag</h3>
-			<hr />
+			<a href="{{ base_url }}admin/tags" class="btn btn-default">
+				<span class="fa fa-list"></span> Retour à la liste
+			</a>
+			<h2>Ajouter un tag</h2>
+			<p>
+				Remplissez le formulaire ci-dessous pour ajouter un tag.
+			</p>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-xs-12">
 			<form method="POST" action="" class="form">
 				{{ form.input('label', 'Nom du tag', { class: 'col-xs-12' }) }}
 				{{ form.hiddenInput('token', token) }}

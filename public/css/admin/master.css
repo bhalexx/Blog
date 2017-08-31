@@ -1,10 +1,12 @@
 /* MIXINS */
-.clear {
-  float: none !important;
-  clear: both !important; }
+.display-flex, .flex-align, .blogpost-form .file-container .upload {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex; }
 
-footer {
-  margin-top: 120px; }
+.flex-align, .blogpost-form .file-container .upload {
+  align-items: center;
+  justify-content: center; }
 
 #alert {
   position: fixed;
@@ -31,3 +33,90 @@ td.options a, td.options form {
 
 .panel-footer > form {
   display: inline-block; }
+
+.blogpost-form .file-container {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 50px; }
+  .blogpost-form .file-container input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 125%;
+    opacity: 0;
+    padding: 14px 0;
+    cursor: pointer; }
+  .blogpost-form .file-container .upload {
+    width: 100%;
+    height: 100%;
+    border: 2px dashed #383838;
+    background: #e7e7e7;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s; }
+    .blogpost-form .file-container .upload .icon {
+      font-size: 4em;
+      display: none;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      transition: all 0.3s; }
+    .blogpost-form .file-container .upload.active {
+      border-width: 3px; }
+      .blogpost-form .file-container .upload.active .icon {
+        font-size: 3.5em; }
+    .blogpost-form .file-container .upload #preview {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background-size: cover !important;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      border-radius: 10px; }
+  .blogpost-form .file-container.empty .upload .icon {
+    display: block; }
+  .blogpost-form .file-container.empty #preview {
+    display: none; }
+  .blogpost-form .file-container.filled .upload .icon {
+    display: none; }
+  .blogpost-form .file-container.filled #preview {
+    display: block; }
+
+.blogpost-form .checkbox-container .checkbox {
+  position: absolute;
+  opacity: 0; }
+  .blogpost-form .checkbox-container .checkbox + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0; }
+  .blogpost-form .checkbox-container .checkbox + label:before {
+    content: '';
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    background: #FFF;
+    border: 1px solid #383838;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px; }
+  .blogpost-form .checkbox-container .checkbox:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    background: #383838;
+    width: 2px;
+    height: 2px;
+    box-shadow: 2px 0 0 #383838, 4px 0 0 #383838, 4px -2px 0 #383838, 4px -4px 0 #383838, 4px -6px 0 #383838, 4px -8px 0 #383838;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg); }
