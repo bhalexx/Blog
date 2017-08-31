@@ -43,6 +43,7 @@
 			$router->get('/blog/tags/:id', 'Tag#showBlogPostsList')->with('id', '[0-9]+');
 			//Contact
 			$router->get('/contact', 'Contact#index');
+			$router->post('/contact/sendMail', 'Contact#sendMail');
 
 			//ADMIN
 			//Dashboard

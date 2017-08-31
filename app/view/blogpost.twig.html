@@ -84,7 +84,7 @@
                 </ul>
                 <hr />
                 <form method="POST" action="">
-                    {{ form.input('author', 'Votre nom/pseudo' ) }}
+                    {{ form.input('author', 'Votre nom/pseudo') }}
                     {{ form.textarea('content', 'Votre commentaire') }}
                     {{ form.hiddenInput('token', token) }}
                     {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
