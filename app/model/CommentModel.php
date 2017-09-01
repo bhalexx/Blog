@@ -32,6 +32,19 @@
 		}
 
 		/*
+		 * Gets all blogpost comments
+		 */
+		public function getAllBlogPostComments ($blogPostId) {
+			return $this->query(
+				"SELECT c.id, c.content, c.author, c.published, DATE_FORMAT(c.date_insert, '%d/%m/%Y à %H:%i') AS date_insert
+				FROM comment AS c
+				WHERE c.blogpost_id = ?
+				ORDER BY c.date_insert DESC",
+				[$blogPostId]
+			);
+		}
+
+		/*
 		 * Gets new comments count
 		 */
 		public function getNewCommentsCount () {
