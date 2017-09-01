@@ -21,7 +21,12 @@
 			<a href="{{ base_url }}admin/posts" class="btn btn-default">
 				<span class="fa fa-list"></span> Retour à la liste
 			</a>
-			<h2>Modifier l'article : {{ post.title }}</h2>
+			<h2>
+				Modifier l'article : {{ post.title }}
+				<a href="{{ base_url }}blog/post/{{ post.id }}" target="_blank" title="Voir l'article">
+					<span class="fa fa-external-link"></span>
+				</a>
+			</h2>
 			<p class="text-right">
 				<small class="text-right">Dernière modification : {{ post.date_update }}</small>
 			</p>
