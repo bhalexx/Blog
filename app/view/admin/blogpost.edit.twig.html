@@ -48,5 +48,49 @@
 				{{ form.checkbox('comments_enabled', 'Activer commentaires', { checked: post.comments_enabled }) }}
 			</div>
 		</form>
+		{% if comments %}
+			<hr/>
+			<div class="col-xs-12">
+				<h3>Commentaires</h3>
+				{% for comment in comments %}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							{% if not comment.published %}
+								<span class="fa fa-eye-slash" title="En attente de validation"></span> |
+							{% endif %}
+							{% if comment.published %}
+								<span class="fa fa-eye" title="Publié"></span> |
+							{% endif %}
+							 <b>De : </b>{{ comment.author }} - <span class="small text-muted">{{ comment.date_insert }}</span>
+						</div>
+						<div class="panel-body">
+							<p><b>Message : </b>{{ comment.content }}</p>
+						</div>
+						<div class="panel-footer">
+							{% if not comment.published %}
+								<form method="POST" action="{{ base_url }}admin/comments/validate">
+									{{ form.hiddenInput('comment_id', comment.id) }}
+									{{ form.hiddenInput('from', 'blogpostEdit') }}
+									{{ form.hiddenInput('blogpostId', post.id) }}
+									{{ form.hiddenInput('token', token) }}
+									<button type="submit" class="btn btn-success">
+										<span class="fa fa-check"></span> Valider
+									</button>
+								</form>
+							{% endif %}
+							<form method="POST" action="{{ base_url }}admin/comments/delete">
+								{{ form.hiddenInput('comment_id', comment.id) }}
+								{{ form.hiddenInput('from', 'blogpostEdit') }}
+								{{ form.hiddenInput('blogpostId', post.id) }}
+								{{ form.hiddenInput('token', token) }}
+								<button type="submit" class="btn btn-danger">
+									<span class="fa fa-trash"></span> Supprimer
+								</button>
+							</form>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}

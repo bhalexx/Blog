@@ -96,6 +96,10 @@
 				
 				$tagsList[] = $newTag;
 			}
+
+			//Comments
+			$this->loadModel('comment');
+			$comments = $this->comment->getAllBlogPostComments($id);
 			
 			//Posted form
 			if (!empty($_POST)) {
@@ -143,7 +147,7 @@
 				}
 			}
 
-			$this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
+			$this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'comments' => $comments, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
 		/*

@@ -37,6 +37,12 @@
 
 					if ($result) {
 						$this->session->setFlash('Le commentaire a été validé, il est désormais visible sur le site.', 'success');
+
+						//If request comes from blogpost edition
+						if ($_POST['from'] === 'blogpostEdit') {
+							return $this->redirect('admin/post/edit/'.$_POST['blogpostId']);
+						}
+
 						return $this->redirect('admin/comments');
 					}
 				}
@@ -60,6 +66,12 @@
 
 					if ($result) {
 						$this->session->setFlash('Le commentaire a été supprimé, il ne sera jamais visible sur le site.', 'success');
+
+						//If request comes from blogpost edition
+						if ($_POST['from'] === 'blogpostEdit') {
+							return $this->redirect('admin/post/edit/'.$_POST['blogpostId']);
+						}
+
 						return $this->redirect('admin/comments');
 					}
 				}
