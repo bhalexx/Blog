@@ -40,9 +40,9 @@
 
 			//Twig instanciation
 			$this->loader = new \Twig_Loader_Filesystem(dirname(__DIR__).'/view');
+			$cache = $this->debug ? false : dirname(__DIR__).'/view/tmp';
 			$this->twig = new \Twig_Environment($this->loader, [
-				// 'cache' => dirname(__DIR__).'/tmp'
-				'cache' => false, // for debug
+				'cache' => $cache, // for debug
 				'debug' => true
 			]);
 			$this->twig->addExtension(new \Twig_Extension_Debug());
