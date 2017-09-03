@@ -38,6 +38,8 @@
          */
 		$('form').find('.submit').click(function(event) {
 			event.preventDefault();
+			var form = $(this)[0].form;
+
 			var title = $('input[name="title"]').val(),
 				hook = $('textarea[name="hook"]').val(),
 				content = ckeditor.instances.content.getData(),
@@ -68,7 +70,7 @@
 			}
 
 			if (!error) {
-				$('form').submit();
+				form.submit();
 			} else {
 				$('.flash').html('<div id="alert" class="alert alert-error">' + errorMessage + '</div>');
 				$('.flash #alert').addClass('shown').delay(5000).queue(function(){
