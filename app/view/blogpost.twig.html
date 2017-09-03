@@ -6,6 +6,10 @@
     {{ post.title }}
 {% endblock %}
 
+{% block metaDescription %}
+{{ post.hook }}
+{% endblock %}
+
 {% block headerImage %}
     <div class="cover" style="background-image: url('{{ base_url }}public/img/repository/{{ post.main_picture }}');"></div>
 {% endblock %}
