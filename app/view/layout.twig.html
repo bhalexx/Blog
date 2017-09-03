@@ -46,8 +46,19 @@
                         <li>
                             <a href="{{ base_url }}contact">Contact</a>
                         </li>
-                        <li>
-                            <a href="{{ base_url }}admin">Admin</a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ base_url }}admin">Dashboard</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ base_url }}admin/posts">Articles</a></li>
+                                <li><a href="{{ base_url }}admin/post/add">Ajouter un article</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ base_url }}admin/tags">Tags</a></li>
+                                <li><a href="{{ base_url }}admin/tags/add">Ajouter un tag</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ base_url }}admin/comments">Commentaires</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
