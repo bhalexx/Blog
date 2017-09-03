@@ -4,6 +4,10 @@
 	Tag : {{ tag.label }}
 {% endblock %}
 
+{% block metaDescription %}
+Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
+{% endblock %}
+
 {% block headerImage %}
 	<div class="cover" style="background-image: url('{{ base_url }}public/img/header_blog.jpg');"></div>
 {% endblock %}
