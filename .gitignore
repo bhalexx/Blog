@@ -1,4 +1,4 @@
 /vendor/
 /public/img/repository/
 /node_modules
-/app/views/tmp/
+/app/view/tmp/
