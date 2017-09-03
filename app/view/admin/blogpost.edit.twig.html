@@ -2,6 +2,10 @@
 
 {% import 'templates/form.twig.html' as form %}
 
+{% block headtitle %}
+	Modifier l'article : {{ post.title }}
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript" src="{{ base_url }}vendor/ckeditor/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="{{ base_url }}public/js/admin/ckeditor.manager.js"></script>
