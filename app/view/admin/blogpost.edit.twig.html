@@ -37,7 +37,7 @@
 	</div>
 	<hr />
 	<div class="row blogpost-form">
-		<form method="POST" action="" class="form" enctype="multipart/form-data">
+		<form method="POST" action="{{ base_url }}admin/post/edit/{{ post.id }}" class="form" enctype="multipart/form-data">
 			<div class="col-md-8 col-lg-9">
 				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: post.title } ) }}
 				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: post.hook }) }}
