@@ -54,15 +54,4 @@
 				WHERE NOT c.published"		
 			);
 		}
-
-		/*
-		 * Deletes comments from blogpost
-		 */
-		public function deleteAllFromBlogPost ($id) {
-			return $this->query(
-				"DELETE FROM comment
-				WHERE blogpost_id = ?",
-				[$id]
-			);
-		}
 	}
