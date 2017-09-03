@@ -47,6 +47,10 @@
                     </li>
                 {% endfor %}
             </ul>
+            <div class="well">
+                {{ post.hook }}
+            </div>
+            <hr/>
             {{ post.HTMLContent | raw }}
             <div class="col-xs-6">
                 <a href="{{ base_url }}blog/post/like/{{ post.id }}" class="btn btn-default">

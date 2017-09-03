@@ -55,10 +55,10 @@ a:hover {
     .cover {
       height: 280px; } }
 
-.intro-header .site-heading h1, .intro-header .site-heading .subheading, .navbar a {
+.intro-header .site-heading h1, .intro-header .site-heading .subheading, .navbar .navbar-nav > li > a {
   text-shadow: 1px 3px 3px #383838; }
 
-.navbar a:hover {
+.navbar .navbar-nav > li > a:hover {
   color: #FFF !important;
   text-shadow: 1px 5px 3px #383838; }
 
@@ -74,6 +74,10 @@ a:hover {
     font-size: 15px; }
   .grid p {
     font-size: 15px; } }
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+  background-color: transparent;
+  color: #FFF; }
 
 .grid p {
   margin: 0 0 10px; }
