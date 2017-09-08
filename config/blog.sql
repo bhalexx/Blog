@@ -124,8 +124,7 @@ ALTER TABLE `tag`
 --
 ALTER TABLE `tag_blogpost`
   ADD KEY `tagId` (`tagId`),
-  ADD KEY `blogPostId` (`blogPostId`),
-  ADD KEY `blogPostId_2` (`blogPostId`);
+  ADD KEY `blogPostId` (`blogPostId`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -154,14 +153,14 @@ ALTER TABLE `tag`
 -- Contraintes pour la table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_blogPostId_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `comment_blogpostid_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `tag_blogpost`
 --
 ALTER TABLE `tag_blogpost`
-  ADD CONSTRAINT `tbp_blogPostId_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tbp_tagId_fk` FOREIGN KEY (`tagId`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tbp_blogpostid_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbp_tagid_fk` FOREIGN KEY (`tagId`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
