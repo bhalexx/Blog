@@ -2,6 +2,9 @@
 
 	namespace App\Controller;
 
+	use App\Entity\CommentEntity;
+	use Core\Helper\FormValidatorHelper;
+
 	class BlogPostController extends AppController {
 		public function __construct() {
 			parent::__construct();
@@ -12,13 +15,12 @@
 		 * Returns blogposts list
 		 */
 		public function index() {
-			//Load tag model
+			//Get tags list
 			$this->loadModel('tag');
-			//Get tags list			
 			$tags = $this->tag->getAllWithCountBlogPost();
 
 			//Get last visible posts
-			$lastVisiblePosts = $this->blogpost->getVisibleBlogPosts();
+			$lastVisiblePosts = $this->blogpost->getAllVisible();
 
 			$this->render('blogposts.twig.html', ['posts' => $lastVisiblePosts, 'tags' => $tags]);
 		}
@@ -26,49 +28,52 @@
 		/*
 		 * Gets single blogpost by id
 		 */
-		public function getSingleBlogPost($id) {
+		public function getSingle($id) {
 			//Load comments model
 			$this->loadModel('comment');
 
-			//Load tag model
-			$this->loadModel('tag');
 			//Get blogpost's tags
-			$tags = $this->tag->getTagsFromBlogPost($id);
+			$this->loadModel('tag');
+			$tags = $this->tag->getAllFromBlogPost($id);
 
 			//Get blogpost's data
-			$post = $this->blogpost->getSingleBlogPost($id);
+			$post = $this->blogpost->getSingle($id);
 
 			//If post doesn't exist
-			if (!$post || !$post->visible) {
+			if (!$post || !$post->getVisible()) {
 				return $this->notFound();
 			}
 						
 			//Form handler
 			if (!empty($_POST)) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 				} else {
-					$result = $this->comment->create([
-						'author' => htmlspecialchars($_POST['author']),
-						'content' => htmlspecialchars($_POST['content']),
-						'blogpost_id' => $post->id
-					]);
+					//Insert comment
+					$comment = new CommentEntity($validator->getSecuredPost());
+					$comment->setBlogPostId($post->getId());
 
+					$result = $this->comment->create([
+						'author' => $comment->getAuthor(),
+						'content' => $comment->getContent(),
+						'blogPostId' => $comment->getBlogpostId()
+					]);
+					
 					if ($result) {
 						$this->session->setFlash('Merci pour votre commentaire ! Celui-ci sera visible sur le site après validation.', 'success');
-						return $this->redirect('blog/post/'.$post->id);
+						return $this->redirect('blog/post/'.$post->getId());
 					}
 				}
 			}
 
 			//Get comments if enabled
 			$comments = [];
-			if ($post->comments_enabled) {
-				$comments = $this->comment->getBlogPostComments($post->id);
+			if ($post->getCommentsEnabled()) {
+				$comments = $this->comment->getAllVisibleFromBlogPost($post->getId());
 			}
 
 			$this->render('blogpost.twig.html', ['post' => $post, 'tags' => $tags, 'comments' => $comments, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
@@ -79,42 +84,21 @@
 		 */
 		public function like($id) {
 			//Get blogpost's data
-			$post = $this->blogpost->getSingleBlogPost($id);
+			$post = $this->blogpost->getSingle($id);
+
+			//Count new nb likes
+			$nbLikes = $post->getNbLikes() + 1;
+			$post->setNbLikes($nbLikes);
+
 			//Update blogpost's nb likes
 			$this->blogpost->update($id, [
-				'nb_likes' => $post->nb_likes + 1
+				'nbLikes' => $nbLikes
 			]);
+
+			//Feedback
 			$this->session->setFlash('Merci pour votre like !', 'success');
-			$this->redirect('blog/post/'.$post->id);
-		}
 
-		/*
-		 * Validates form
-		 */
-		public function validateForm($data) {
-			$return = [
-				'errorMessage' => null,
-				'valid' => true
-			];
-
-			if (!$this->tokenIsValid($_POST['token'])) {
-				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['author'])) {
-				$return['errorMessage'] = "L'auteur est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['content'])) {
-				$return['errorMessage'] = "Le contenu est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			return $return;
+			//Redirect
+			$this->redirect('blog/post/'.$post->getId());
 		}
 	}

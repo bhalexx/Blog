@@ -3,6 +3,8 @@
 	namespace App\Controller\Admin;
 
 	use App\Controller\AppController;
+	use \App\Entity\TagEntity;
+	use \Core\Helper\FormValidatorHelper;
 
 	class TagController extends AppController {
 		public function __construct() {
@@ -15,6 +17,7 @@
 		 */
 		public function index() {
 			$allTags = $this->tag->getAllWithCountBlogPost();
+
 			$this->render('admin/tags.twig.html', ['tags' => $allTags, 'count' => count($allTags), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
@@ -23,15 +26,16 @@
 		 */
 		public function add() {
 			if (!empty($_POST)) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 				} else {
+					$tag = new TagEntity($validator->getSecuredPost());
 					$result = $this->tag->create([
-						'label' => $_POST['label']
+						'label' => $tag->getLabel()
 					]);
 
 					if ($result) {
@@ -40,6 +44,7 @@
 					}
 				}
 			}
+
 			$this->render('admin/tags.add.twig.html', ['flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
@@ -47,16 +52,27 @@
 		 * Edits a tag by id
 		 */
 		public function edit($id) {
-			if (!empty($_POST)) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+			//Get tag's data value
+			$tag = $this->tag->getSingle($id);
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
+			if (!empty($_POST)) {
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 				} else {
+					//Set tag
+					foreach($validator->getSecuredPost() as $key => $value) {
+						$funcName = "set".ucfirst($key);
+						if (method_exists($tag, $funcName)) {
+							$tag->$funcName($value);							
+						}
+					}
+					//Update tag in database
 					$result = $this->tag->update($id, [
-						'label' => $_POST['label']
+						'label' => $tag->getLabel()
 					]);
 
 					if ($result) {
@@ -65,9 +81,7 @@
 					}
 				}
 			}
-			//Get tag's data value
-			$tag = $this->tag->getSingle($id);
-
+			
 			$this->render('admin/tags.edit.twig.html', ['tag' => $tag, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
@@ -76,37 +90,17 @@
 		 */
 		public function delete() {
 			if (!empty($_POST)) {
-				if (!$this->tokenIsValid($_POST['token'])) {
-					$this->session->setFlash("Vous n'avez pas le droit d'effectuer cette action.", 'error');
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 					return $this->redirect('admin/tags');
 				}
+
 				$this->tag->delete($_POST['id']);
 				$this->session->setFlash('Le tag a bien été supprimé.', 'success');
 				return $this->redirect('admin/tags');
 			}
-		}
-
-		/*
-		 * Validates form
-		 */
-		public function validateForm($data) {
-			$return = [
-				'errorMessage' => null,
-				'valid' => true
-			];
-
-			if (!$this->tokenIsValid($data['token'])) {
-				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['label'])) {
-				$return['errorMessage'] = "Le nom du tag est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			return $return;
 		}
 	}

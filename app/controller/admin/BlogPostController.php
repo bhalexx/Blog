@@ -3,8 +3,9 @@
 	namespace App\Controller\Admin;
 
 	use App\Controller\AppController;
-	use App\Entity;
+	use App\Entity\BlogPostEntity;
 	use Core\Helper\FileUploadHelper;
+	use Core\Helper\FormValidatorHelper;
 
 	class BlogPostController extends AppController {
 		public function __construct() {
@@ -25,21 +26,20 @@
 		 * Adds a new blogpost
 		 */
 		public function add() {
-			//Load tag model
-			$this->loadModel('tag');
 			//Get tags list			
+			$this->loadModel('tag');
 			$tags = $this->tag->getAll();
 
 			//Posted form
 			if (!empty($_POST)) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST, true);
-
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
+				//Form validation			
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+				
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 				} else {
-					//Upload File
+					//Upload file
 					$file = new FileUploadHelper($_FILES['picture'], $this->pictureRepository, $this->allowedExtensions);
 					$upload = $file->upload();
 					if (!$upload) {
@@ -47,23 +47,35 @@
 						return $this->render('admin/blogpost.add.twig.html', ['tags' => $tags, 'data' => $_POST, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 					}
 					$fileName = $file->fileName;
+
+					//Set blogpost
+					$post = new BlogPostEntity($validator->getSecuredPost());
+					$post->setMainPicture($fileName);
+					$post->setVisible(isset($_POST['visible']));
+					$post->setcommentsEnabled(isset($_POST['commentsEnabled']));
+					//Set blogpost's tags
+					foreach($_POST['tags'] as $selectedTag) {
+						$tag = $this->tag->getSingle($selectedTag);
+						$post->addTag($tag);
+					}
+					
 					//Insert blogpost in database
 					$result = $this->blogpost->create([
-						'title' => htmlspecialchars($_POST['title']),
-						'hook' => htmlspecialchars($_POST['hook']),
-						'content' => $_POST['content'],
-						'author' => htmlspecialchars($_POST['author']),
-						'main_picture' => $fileName,
-						'visible' => isset($_POST['visible']),
-						'comments_enabled' => isset($_POST['comments_enabled'])
+						'title' => $post->getTitle(),
+						'hook' => $post->getHook(),
+						'content' => $post->getContent(),
+						'author' => $post->getAuthor(),
+						'mainPicture' => $post->getMainPicture(),
+						'visible' => $post->getVisible(),
+						'commentsEnabled' => $post->getCommentsEnabled()
 					]);
 
-					//Get new blogpost's id
-					$blogPostId = $this->blogpost->getLastInsertId();
-					//Insert blogpost's tags references
-					$this->addTags($_POST['tags'], $blogPostId);
-
 					if ($result) {
+						// Get new blogpost's id
+						$blogPostId = $this->blogpost->getLastInsertId();
+						//Insert blogpost's tags references
+						$this->addTags($post->getTags(), $blogPostId);
+
 						$this->session->setFlash('Votre article a bien été créé.', 'success');
 						return $this->redirect('admin/posts');
 					}
@@ -78,20 +90,21 @@
 		 */
 		public function edit($id) {
 			//Get blogpost's data value
-			$post = $this->blogpost->getSingleBlogPost($id);
-			// Load tag model			
-			$this->loadModel('tag');		
+			$post = $this->blogpost->getSingle($id);
+						
 			//Get blogpost's tags
-			$selectedTags = $this->tag->getTagsFromBlogPost($id);
-			//Get tags list
+			$this->loadModel('tag');		
+			$selectedTags = $this->tag->getAllFromBlogPost($id);
+			//Set selected tags to blogpost
+			foreach($selectedTags as $selectedTag) {
+				$post->addTag($selectedTag);
+			}
+			//Get all tags list
 			$tags = $this->tag->getAll();
-			
 			//Build tags list by comparing full tags list with blogpost's selected tags
 			$tagsList = [];
 			foreach ($tags as $tag) {
-				$newTag = new Entity\TagEntity();
-				$newTag->id = $tag->id;
-				$newTag->label = $tag->label;
+				$newTag = $tag;
 				$newTag->selected = in_array($tag, $selectedTags);
 				
 				$tagsList[] = $newTag;
@@ -99,16 +112,19 @@
 
 			//Comments
 			$this->loadModel('comment');
-			$comments = $this->comment->getAllBlogPostComments($id);
+			$comments = $this->comment->getAllFromBlogPost($id);
 			
 			//Posted form
 			if (!empty($_POST)) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+				//Reset blogpost's tags
+				$post->resetTags();
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
 				} else {
 					//If picture has changed, upload new file
 					$pictureHasChanged = !$this->pictureIsMissing();
@@ -119,28 +135,44 @@
 							$this->session->setFlash($file->error, 'error');
 							return $this->render('admin/blogpost.edit.twig.html', ['post' => $post, 'tags' => $tagsList, 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 						}
-						$file->delete($post->main_picture);
-						$fileName = $file->fileName;
-					} else {
-						$fileName = $post->main_picture;
+						//Delete old picture
+						$file->delete($post->getMainPicture());
+						//Set blogpost's main picture
+						$post->setMainPicture($file->fileName);
 					}
+
+					//Set blogpost
+					foreach($validator->getSecuredPost() as $key => $value) {
+						$funcName = "set".ucfirst($key);
+						if (method_exists($post, $funcName)) {
+							$post->$funcName($value);							
+						}
+					}
+					$post->setVisible(isset($_POST['visible']));
+					$post->setcommentsEnabled(isset($_POST['commentsEnabled']));
+					//Set blogpost's tags
+					foreach($_POST['tags'] as $selectedTag) {
+						$tag = $this->tag->getSingle($selectedTag);
+						$post->addTag($tag);
+					}
+					
 					//Update blogpost in database
 					$result = $this->blogpost->update($id, [
-						'title' => htmlspecialchars($_POST['title']),
-						'hook' => htmlspecialchars($_POST['hook']),
-						'content' => htmlspecialchars($_POST['content']),
-						'author' => htmlspecialchars($_POST['author']),
-						'main_picture' => $fileName,
-						'visible' => isset($_POST['visible']),
-						'comments_enabled' => isset($_POST['comments_enabled'])
+						'title' => $post->getTitle(),
+						'hook' => $post->getHook(),
+						'content' => $post->getContent(),
+						'author' => $post->getAuthor(),
+						'mainPicture' => $post->getMainPicture(),
+						'visible' => $post->getVisible(),
+						'commentsEnabled' => $post->getCommentsEnabled() 
 					]);
 
-					//Delete all blogpost's tags references
-					$this->tag->deleteTagsReferencesFromBlogPost($id);
-					//Insert blogpost's tags references
-					$this->addTags($_POST['tags'], $id);
-
 					if ($result) {
+						//Delete all blogpost's tags references
+						$this->tag->deleteAllFromBlogPost($id);
+						//Insert blogpost's new tags references
+						$this->addTags($post->getTags(), $id);
+
 						$this->session->setFlash('Votre article a bien été modifié.', 'success');
 						return $this->redirect('admin/posts');
 					}
@@ -155,15 +187,19 @@
 		 */
 		public function delete() {
 			if (!empty($_POST)) {
-				if (empty($_POST['token']) || $_POST['token'] !== $this->session->getToken()) {
-					$this->session->setFlash("Vous n'avez pas le droit d'effectuer cette action.", 'error');
-					return $this->redirect('admin/posts');
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
+					return $this->redirect('admin/posts');					
 				}
 
 				//Remove blogpost's picture file
 				$file = $this->blogpost->getMainPicture($_POST['id']);
-				$fileHelper = new FileUploadHelper($file->main_picture, $this->pictureRepository, $this->allowedExtensions);
-				$fileHelper->delete($file->main_picture);
+				$fileHelper = new FileUploadHelper($file->getMainPicture(), $this->pictureRepository, $this->allowedExtensions);
+				$fileHelper->delete($file->getMainPicture());
 
 				//Remove blogpost
 				$this->blogpost->delete($_POST['id']);
@@ -180,72 +216,10 @@
 			$this->loadModel('tag'); 
 			foreach ($tags as $tag) {
 				$this->tag->create([
-					'tag_id' => $tag,
-					'blogpost_id' => $blogPostId
+					'tagId' => $tag->getId(),
+					'blogPostId' => $blogPostId
 				], 'tag_blogpost');
 			}
-		}
-
-		/*
-		 * Validates form
-		 */
-		public function validateForm($data, $fileIsRequired = false) {
-			$return = [
-				'errorMessage' => null,
-				'valid' => true
-			];
-
-			if (!$this->tokenIsValid($_POST['token'])) {
-				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($_POST['title'])) {
-				$return['errorMessage'] = "Le titre est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($_POST['hook'])) {
-				$return['errorMessage'] = "Le chapô est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-			
-			if (empty($_POST['content'])) {
-				$return['errorMessage'] = "Le contenu est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($_POST['author'])) {
-				$return['errorMessage'] = "L'auteur est obligatoire.";
-				$return['valid'] = false;
-				return $return;
-			}
-			
-			if ($fileIsRequired) {
-				if ($this->pictureIsMissing()) {
-					$return['errorMessage'] = "L'image est obligatoire.";
-					$return['valid'] = false;
-					return $return;	
-				}
-			}
-
-			if (!isset($_POST['tags'])) {
-				$return['errorMessage'] = "L'article doit être associé à un tag minimum.";
-				$return['valid'] = false;
-				return $return;	
-			}
-
-			if (isset($_POST['tags']) && count($_POST['tags']) > 3) {
-				$return['errorMessage'] = "L'article doit être associé à 3 tags maximum.";
-				$return['valid'] = false;
-				return $return;	
-			}
-
-			return $return;
 		}
 
 		/*

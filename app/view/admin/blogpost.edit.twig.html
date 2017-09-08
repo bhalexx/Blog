@@ -32,7 +32,7 @@
 				</a>
 			</h2>
 			<p class="text-right">
-				<small class="text-right">Dernière modification : {{ post.date_update }}</small>
+				<small class="text-right">Dernière modification : {{ post.dateUpdate }}</small>
 			</p>
 			<p>
 				Remplissez le formulaire ci-dessous pour modifier un article.
@@ -42,19 +42,24 @@
 	<hr />
 	<div class="row blogpost-form">
 		<form method="POST" action="{{ base_url }}admin/post/edit/{{ post.id }}" class="form" enctype="multipart/form-data">
-			<div class="col-md-8 col-lg-9">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
 				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: post.title } ) }}
 				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: post.hook }) }}
 				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: post.HTMLContent }) }}
 				{{ form.select('tags', 'Tags (max. 3)', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
 				{{ form.hiddenInput('token', token) }}
-				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				<div class="hidden-xs hidden-sm">
+					{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				</div>
 			</div>
-			<div class="col-md-4 col-lg-3">
-				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.main_picture, { class: 'filled' }) }}
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.mainPicture, { class: 'filled', valid: 'true', required: 'false' }) }}
 				{{ form.input('author', 'Auteur', { value: post.author }) }}
 				{{ form.checkbox('visible', 'Rendre public', { checked: post.visible }) }}
-				{{ form.checkbox('comments_enabled', 'Activer commentaires', { checked: post.comments_enabled }) }}
+				{{ form.checkbox('commentsEnabled', 'Activer commentaires', { checked: post.commentsEnabled }) }}
+				<div class="hidden-md hidden-lg">
+					{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				</div>
 			</div>
 		</form>
 		{% if comments %}
@@ -69,7 +74,7 @@
 							{% if comment.published %}
 								<span class="fa fa-eye" title="Publié"></span> |
 							{% endif %}
-							 <b>De : </b>{{ comment.author }} - <span class="small text-muted">{{ comment.date_insert }}</span>
+							 <b>De : </b>{{ comment.author }} - <span class="small text-muted">{{ comment.dateInsert }}</span>
 						</div>
 						<div class="panel-body">
 							<p><b>Message : </b>{{ comment.content }}</p>
@@ -79,7 +84,7 @@
 								<form method="POST" action="{{ base_url }}admin/comments/validate">
 									{{ form.hiddenInput('comment_id', comment.id) }}
 									{{ form.hiddenInput('from', 'blogpostEdit') }}
-									{{ form.hiddenInput('blogpostId', post.id) }}
+									{{ form.hiddenInput('blogPostId', post.id) }}
 									{{ form.hiddenInput('token', token) }}
 									<button type="submit" class="btn btn-success">
 										<span class="fa fa-check"></span> Valider
@@ -89,7 +94,7 @@
 							<form method="POST" action="{{ base_url }}admin/comments/delete">
 								{{ form.hiddenInput('comment_id', comment.id) }}
 								{{ form.hiddenInput('from', 'blogpostEdit') }}
-								{{ form.hiddenInput('blogpostId', post.id) }}
+								{{ form.hiddenInput('blogPostId', post.id) }}
 								{{ form.hiddenInput('token', token) }}
 								<button type="submit" class="btn btn-danger">
 									<span class="fa fa-trash"></span> Supprimer

@@ -3,6 +3,7 @@
 	namespace App\Controller\Admin;
 
 	use App\Controller\AppController;
+	use \Core\Helper\FormValidatorHelper;
 
 	class CommentController extends AppController {
 		public function __construct() {
@@ -14,7 +15,8 @@
 		 * Returns comments list
 		 */
 		public function index() {
-			$allNewComments = $this->comment->getNewComments();
+			$allNewComments = $this->comment->getAllNew();
+
 			$this->render('admin/comments.twig.html', ['comments' => $allNewComments, 'count' => count($allNewComments), 'flash' => $this->session->getFlash(), 'token' => $this->session->getToken()]);
 		}
 
@@ -23,30 +25,31 @@
 		 */
 		public function validate() {
 			if (!empty($_POST['comment_id'])) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+				$comment = $this->comment->getSingle($_POST['comment_id']);
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
-					return $this->redirect('admin/comments');
+				$redirectPath = $_POST['from'] === 'blogpostEdit' ? 'admin/post/edit/'.$comment->getBlogPostId() : 'admin/comments';
+
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
+					return $this->redirect($redirectPath);
 				} else {
-					$result = $this->comment->update($_POST['comment_id'], [
-						'published' => true
+					$comment->setPublished(true);
+					
+					$result = $this->comment->update($comment->getId(), [
+						'published' => $comment->getPublished()
 					]);
 
 					if ($result) {
 						$this->session->setFlash('Le commentaire a été validé, il est désormais visible sur le site.', 'success');
-
-						//If request comes from blogpost edition
-						if ($_POST['from'] === 'blogpostEdit') {
-							return $this->redirect('admin/post/edit/'.$_POST['blogpostId']);
-						}
-
-						return $this->redirect('admin/comments');
+						return $this->redirect($redirectPath);
 					}
 				}
 			}
+			return $this->redirect('admin/comments');
 		}
 
 		/*
@@ -54,51 +57,26 @@
 		 */
 		public function delete() {
 			if (!empty($_POST['comment_id'])) {
-				//Form error handler
-				$formValidation = $this->validateForm($_POST);
+				$comment = $this->comment->getSingle($_POST['comment_id']);
 
-				//Form is not valid
-				if (!$formValidation['valid']) {
-					$this->session->setFlash($formValidation['errorMessage'], 'error');
-					return $this->redirect('admin/comments');
+				$redirectPath = $_POST['from'] === 'blogpostEdit' ? 'admin/post/edit/'.$comment->getBlogPostId() : 'admin/comments';
+
+				//Form validation
+				$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+				$formIsValid = $validator->checkForm();
+
+				if (!$formIsValid) {
+					$this->session->setFlash($validator->getFirstError(), 'error');
+					return $this->redirect($redirectPath);
 				} else {
-					$result = $this->comment->delete($_POST['comment_id']);
+					$result = $this->comment->delete($comment->getId());
 
 					if ($result) {
 						$this->session->setFlash('Le commentaire a été supprimé, il ne sera jamais visible sur le site.', 'success');
-
-						//If request comes from blogpost edition
-						if ($_POST['from'] === 'blogpostEdit') {
-							return $this->redirect('admin/post/edit/'.$_POST['blogpostId']);
-						}
-
-						return $this->redirect('admin/comments');
+						return $this->redirect($redirectPath);
 					}
 				}
 			}
-		}
-
-		/*
-		 * Validates form
-		 */
-		public function validateForm($data) {
-			$return = [
-				'errorMessage' => null,
-				'valid' => true
-			];
-
-			if (!$this->tokenIsValid($data['token'])) {
-				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['comment_id'])) {
-				$return['errorMessage'] = "Une erreur est survenue. L'id du commentaire ne peut être manquant.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			return $return;
+			return $this->redirect('admin/comments');
 		}
 	}

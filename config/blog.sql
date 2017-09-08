@@ -32,13 +32,13 @@ CREATE TABLE `blogpost` (
   `hook` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
   `author` varchar(255) NOT NULL,
-  `date_insert` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `main_picture` varchar(255) NOT NULL,
-  `nb_likes` int(11) NOT NULL,
+  `dateInsert` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateUpdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `mainPicture` varchar(255) NOT NULL,
+  `nbLikes` int(11) NOT NULL,
   `visible` tinyint(1) NOT NULL,
-  `comments_enabled` tinyint(1) NOT NULL,
-  `nb_comments` int(11) NOT NULL
+  `commentsEnabled` tinyint(1) NOT NULL,
+  `nbComments` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -51,9 +51,9 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `content` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
-  `blogpost_id` int(11) NOT NULL,
+  `blogPostId` int(11) NOT NULL,
   `published` tinyint(1) NOT NULL,
-  `date_insert` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `dateInsert` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -61,15 +61,15 @@ CREATE TABLE `comment` (
 --
 DELIMITER $$
 CREATE TRIGGER `after_delete_comment` AFTER DELETE ON `comment` FOR EACH ROW BEGIN
-  UPDATE blogpost SET nb_comments = nb_comments - 1
-    WHERE id = OLD.blogpost_id;
+  UPDATE blogpost SET nbComments = nbComments - 1
+    WHERE id = OLD.blogPostId;
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `after_insert_comment` AFTER INSERT ON `comment` FOR EACH ROW BEGIN
-  UPDATE blogpost SET nb_comments = nb_comments + 1
-    WHERE id = NEW.blogpost_id;
+  UPDATE blogpost SET nbComments = nbComments + 1
+    WHERE id = NEW.blogPostId;
 END
 $$
 DELIMITER ;
@@ -92,8 +92,8 @@ CREATE TABLE `tag` (
 --
 
 CREATE TABLE `tag_blogpost` (
-  `tag_id` int(11) NOT NULL,
-  `blogpost_id` int(11) NOT NULL
+  `tagId` int(11) NOT NULL,
+  `blogPostId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -111,7 +111,7 @@ ALTER TABLE `blogpost`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `blogpost_id` (`blogpost_id`);
+  ADD KEY `blogPostId` (`blogPostId`);
 
 --
 -- Index pour la table `tag`
@@ -123,9 +123,9 @@ ALTER TABLE `tag`
 -- Index pour la table `tag_blogpost`
 --
 ALTER TABLE `tag_blogpost`
-  ADD KEY `tag_id` (`tag_id`),
-  ADD KEY `blogpost_id` (`blogpost_id`),
-  ADD KEY `blogpost_id_2` (`blogpost_id`);
+  ADD KEY `tagId` (`tagId`),
+  ADD KEY `blogPostId` (`blogPostId`),
+  ADD KEY `blogPostId_2` (`blogPostId`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -154,14 +154,14 @@ ALTER TABLE `tag`
 -- Contraintes pour la table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_blogpost_id_fk` FOREIGN KEY (`blogpost_id`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `comment_blogPostId_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `tag_blogpost`
 --
 ALTER TABLE `tag_blogpost`
-  ADD CONSTRAINT `tbp_blogpost_id_fk` FOREIGN KEY (`blogpost_id`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tbp_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tbp_blogPostId_fk` FOREIGN KEY (`blogPostId`) REFERENCES `blogpost` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbp_tagId_fk` FOREIGN KEY (`tagId`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

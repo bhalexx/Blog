@@ -10,7 +10,7 @@
 		 */
 		public function index() {
 			$this->loadModel('comment');
-			$commentsCount = $this->comment->getNewCommentsCount();
+			$commentsCount = $this->comment->getAllNewCount();
 			
 			$this->render('admin/dashboard.twig.html', ['commentsCount' => $commentsCount]);
 		}

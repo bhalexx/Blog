@@ -6,22 +6,11 @@
 
 	class BlogPostModel extends Model {
 		/*
-		 * Gets all blogposts
-		 */
-		public function getAll() {
-			return $this->query(
-				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_insert, '%d/%m/%Y') AS date_insert, DATE_FORMAT(bp.date_update, '%d/%m/%Y') AS date_update, bp.main_picture, bp.nb_likes, bp.visible, bp.comments_enabled, bp.nb_comments
-				FROM blogpost AS bp
-				ORDER BY bp.date_insert DESC"
-			);
-		}
-
-		/*
 		 * Gets single blogpost by id
 		 */
-		public function getSingleBlogPost($id) {
+		public function getSingle($id) {
 			return $this->query(
-				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_insert, '%d/%m/%Y à %H:%i') AS date_insert, DATE_FORMAT(bp.date_update, '%d/%m/%Y à %H:%i') AS date_update, bp.main_picture, bp.nb_likes, bp.visible, bp.comments_enabled, bp.nb_comments
+				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.dateInsert, '%d/%m/%Y à %H:%i') AS dateInsert, DATE_FORMAT(bp.dateUpdate, '%d/%m/%Y à %H:%i') AS dateUpdate, bp.mainPicture, bp.nbLikes, bp.visible, bp.commentsEnabled, bp.nbComments
 				FROM blogpost AS bp
 				WHERE bp.id = ?",
 				[$id],
@@ -30,42 +19,52 @@
 		}
 
 		/*
-		 * Gets blogpost's main picture
+		 * Gets all blogposts
 		 */
-		public function getMainPicture($id) {
-			return $this->query("
-				SELECT main_picture
-				FROM blogpost
-				WHERE id = ?",
-				[$id],
-				true
+		public function getAll() {
+			return $this->query(
+				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.dateInsert, '%d/%m/%Y') AS dateInsert, DATE_FORMAT(bp.dateUpdate, '%d/%m/%Y') AS dateUpdate, bp.mainPicture, bp.nbLikes, bp.visible, bp.commentsEnabled, bp.nbComments
+				FROM blogpost AS bp
+				ORDER BY bp.dateInsert DESC"
 			);
 		}
 
 		/*
 		 * Gets visible blogposts
 		 */
-		public function getVisibleBlogPosts() {
+		public function getAllVisible() {
 			return $this->query(
-				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_insert, '%d/%m/%Y') AS date_insert, DATE_FORMAT(bp.date_update, '%d/%m/%Y') AS date_update, bp.main_picture, bp.nb_likes, bp.visible, bp.comments_enabled, bp.nb_comments
+				"SELECT bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.dateInsert, '%d/%m/%Y') AS dateInsert, DATE_FORMAT(bp.dateUpdate, '%d/%m/%Y') AS dateUpdate, bp.mainPicture, bp.nbLikes, bp.visible, bp.commentsEnabled, bp.nbComments
 				FROM blogpost AS bp
 				WHERE bp.visible
-				ORDER BY bp.date_insert DESC"
+				ORDER BY bp.dateInsert DESC"
 			);
 		}
 
 		/*
 		 * Gets blogposts by tag
 		 */
-		public function getBlogPostsByTag($tagId) {
+		public function getAllVisibleByTag($tagId) {
 			return $this->query("
-				SELECT tbp.tag_id, bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.date_update, '%d/%m/%Y') AS date_update, bp.main_picture
+				SELECT tbp.tagId, bp.id, bp.title, bp.hook, bp.content, bp.author, DATE_FORMAT(bp.dateUpdate, '%d/%m/%Y') AS dateUpdate, bp.mainPicture
 				FROM tag_blogpost AS tbp
-				LEFT JOIN blogpost AS bp ON bp.id = tbp.blogpost_id
-				WHERE bp.visible AND tbp.tag_id = ?
-				ORDER BY bp.date_insert DESC",
+				LEFT JOIN blogpost AS bp ON bp.id = tbp.blogPostId
+				WHERE bp.visible AND tbp.tagId = ?
+				ORDER BY bp.dateInsert DESC",
 				[$tagId]
 			);
 		}
-	}
 
+		/*
+		 * Gets blogpost's main picture
+		 */
+		public function getMainPicture($id) {
+			return $this->query("
+				SELECT mainPicture
+				FROM blogpost
+				WHERE id = ?",
+				[$id],
+				true
+			);
+		}
+	}
