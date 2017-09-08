@@ -38,7 +38,7 @@ Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
 					{% for post in posts %}
 						<div class="col-sm-6 col-md-4 col-lg-4 post">
 							<div class="wrapper">
-								<a href="{{ base_url }}{{ post.url }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.main_picture }}');" class="cover-img">
+								<a href="{{ base_url }}{{ post.url }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.mainPicture }}');" class="cover-img">
 								</a>
 								<div class="text">
 									<h3>
@@ -46,7 +46,7 @@ Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
 											{{ post.title }}
 										</a>					
 									</h3>
-									<span class="small text-muted">Mis à jour le {{ post.date_update }}</span>
+									<span class="small text-muted">Mis à jour le {{ post.dateUpdate }}</span>
 									<p>{{ post.hook }}</p>
 									<a href="{{ base_url }}{{ post.url }}" class="more">
 										<span class="label label-primary">Lire la suite</span>

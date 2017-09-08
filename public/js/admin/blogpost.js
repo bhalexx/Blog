@@ -5,6 +5,7 @@
 		 */
 		var fileInput = $('.file-input'),
 			droparea = $('.upload'),
+			fileIsValid = $('#picture_valid'),
 			readFile = function (input) {
 				if (input.files && input.files[0]) {
 					var reader = new FileReader();
@@ -15,6 +16,11 @@
 					}
 
 					reader.readAsDataURL(input.files[0]);
+					fileIsValid.val(true);
+				} else {
+					$('.file-container').removeClass('filled').addClass('empty');
+					$('#preview').css('background-image', 'none');
+					fileIsValid.val(false);
 				}
 			};
 
@@ -30,7 +36,7 @@
 
 		//On file input change
 		fileInput.on('change', function() {
-			readFile(this);
+			readFile(this);			
 		});
 
       	/**
@@ -45,6 +51,7 @@
 				content = ckeditor.instances.content.getData(),
 				author = $('input[name="author"]').val(),
 				picture = $('input[name="picture"]'),
+				pictureIsValid = $('#picture_valid').val(),
 				tags = $('select').val(),
 				error = false,
 				errorMessage = '';
@@ -61,10 +68,10 @@
 			} else if (author.trim() === '') {
 				error = true;
 				errorMessage = "L\'auteur est obligatoire.";
-			} else if (picture.get(0).files.length === 0 && picture.hasClass('required')) {
+			} else if (picture.get(0).files.length === 0 && !pictureIsValid) {
 				error = true;
 				errorMessage = "L'image est obligatoire.";
-			} else if (tags !== null && tags.length === 0) {
+			} else if (tags === null || (tags !== null && tags.length === 0)) {
 				error = true;
 				errorMessage = "L'article doit être associé à un tag minimum.";
 			}

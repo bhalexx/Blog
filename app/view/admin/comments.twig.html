@@ -28,7 +28,7 @@
 				{% for comment in comments %}
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<b>De : </b>{{ comment.author }} - <span class="small text-muted">{{ comment.date_insert }}</span>
+						<b>De : </b>{{ comment.author }} - <span class="small text-muted">{{ comment.dateInsert }}</span>
 					</div>
 					<div class="panel-body">
 						<b>Article : </b>
@@ -39,7 +39,7 @@
 						<form method="POST" action="{{ base_url }}admin/comments/validate">
 							{{ form.hiddenInput('comment_id', comment.id) }}
 							{{ form.hiddenInput('from', null) }}
-							{{ form.hiddenInput('blogpostId', null) }}
+							{{ form.hiddenInput('blogPostId', null) }}
 							{{ form.hiddenInput('token', token) }}
 							<button type="submit" class="btn btn-success">
 								<span class="fa fa-check"></span> Valider
@@ -48,7 +48,7 @@
 						<form method="POST" action="{{ base_url }}admin/comments/delete">
 							{{ form.hiddenInput('comment_id', comment.id) }}
 							{{ form.hiddenInput('from', null) }}
-							{{ form.hiddenInput('blogpostId', null) }}
+							{{ form.hiddenInput('blogPostId', null) }}
 							{{ form.hiddenInput('token', token) }}
 							<button type="submit" class="btn btn-danger">
 								<span class="fa fa-trash"></span> Supprimer

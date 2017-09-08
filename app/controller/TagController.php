@@ -22,7 +22,7 @@
 				$this->notFound();
 			}
 			
-			$postsList = $this->blogpost->getBlogPostsByTag($id);
+			$postsList = $this->blogpost->getAllVisibleByTag($id);
 			
 			$this->render('tag.twig.html', ['tag' => $tag, 'posts' => $postsList]);
 		}

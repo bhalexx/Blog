@@ -34,19 +34,24 @@
 	<hr />	
 	<div class="row blogpost-form">
 		<form method="POST" action="" class="form" enctype="multipart/form-data">
-			<div class="col-md-8 col-lg-9">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
 				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: data.title }) }}
 				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: data.hook }) }}
 				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: data.HTMLContent }) }}
 				{{ form.select('tags', 'Tags (max. 3)', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}				
 				{{ form.hiddenInput('token', token) }}
-				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				<div class="hidden-xs hidden-sm">
+					{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				</div>
 			</div>
-			<div class="col-md-4 col-lg-3">
-				{{ form.inputFileImg('picture', 'Image principale', null, { class: 'empty' }) }}
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+				{{ form.inputFileImg('picture', 'Image principale', null, { class: 'empty', valid: 'false', required: 'true' }) }}
 				{{ form.checkbox('visible', 'Rendre public', { checked: data.visible }) }}
-				{{ form.checkbox('comments_enabled', 'Activer commentaires', { checked: data.comments_enabled }) }}
+				{{ form.checkbox('commentsEnabled', 'Activer commentaires', { checked: data.commentsEnabled }) }}
 				{{ form.input('author', 'Auteur', { value: data.author }) }}
+				<div class="hidden-md hidden-lg">
+					{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
+				</div>
 			</div>
 		</form>
 	</div>	

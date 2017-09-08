@@ -4,6 +4,7 @@
 
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
+	use Core\Helper\FormValidatorHelper;
 
 	class ContactController extends AppController {
 		public function __construct() {
@@ -22,11 +23,12 @@
 		 */
 		public function sendMail() {
 			//Form error handler
-			$formValidation = $this->validateForm($_POST);
+			$validator = new FormValidatorHelper($_POST, $this->session->getToken());
+			$formIsValid = $validator->checkForm();
 
 			//Form is not valid
-			if (!$formValidation['valid']) {
-				$this->session->setFlash($formValidation['errorMessage'], 'error');
+			if (!$formIsValid) {
+				$this->session->setFlash($validator->getFirstError(), 'error');
 			} else {
 				$mail = new PHPMailer(true);
 				try {
@@ -64,47 +66,5 @@
 			}
 
 			$this->redirect($_POST['url']);
-		}
-
-		/*
-		 * Validates form
-		 */
-		public function validateForm($data) {
-			$return = [
-				'errorMessage' => null,
-				'valid' => true
-			];
-
-			if (!$this->tokenIsValid($_POST['token'])) {
-				$return['errorMessage'] = "Vous n'avez pas le droit d'effectuer cette action.";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['name'])) {
-				$return['errorMessage'] = "Donnez-moi votre nom, ce sera plus simple :)";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['mail'])) {
-				$return['errorMessage'] = "Sans votre adresse email, je ne pourrai pas vous répondre !";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL)) {
-			    $return['errorMessage'] = "Votre adresse email semble incorrecte !";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			if (empty($data['message'])) {
-				$return['errorMessage'] = "Vous n'avez rien à me dire ?";
-				$return['valid'] = false;
-				return $return;
-			}
-
-			return $return;
 		}
 	}

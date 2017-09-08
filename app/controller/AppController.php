@@ -97,11 +97,4 @@
 		public function forbidden() {
 			$this->redirect('error/403');	
 		}
-
-		/*
-		 * Gets whether posted token is same as session token
-		 */
-		public function tokenIsValid($token) {
-			return !empty($_POST['token']) && $_POST['token'] === $this->session->getToken();
-		}
 	}

@@ -32,7 +32,7 @@
 {% macro select(name, label, selectOptions, keyName, valueName, options = []) %}
 	<div class="form-group {{ options.class }}">
 		<label for="{{ name }}">{{ label }}</label>
-		<select name="{{ name }}{{ options.multiple ? "[]" : "" }}" class="form-control" {{ options.multiple ? "multiple" : "" }}>
+		<select name="{{ name }}{{ options.multiple ? '[]' : '' }}" id="{{ name }}" class="form-control" {{ options.multiple ? 'multiple' : '' }}>
 			{% if options.insertBlank %}
 			<option selected="true"></option>
 			{% endif %}
@@ -40,16 +40,17 @@
 			<option selected="true" value="{{ options.placeholderValue }}">{{ options.placeholder }}</option>
 			{% endif %}
 			{% for option in selectOptions %}
-				<option value="{{ attribute(option, keyName) }}" {{ option.selected ? 'selected' : "" }}>{{ attribute(option, valueName) }}</option>
+				<option value="{{ attribute(option, keyName) }}" {{ option.selected ? 'selected' : '' }}>{{ attribute(option, valueName) }}</option>
 			{% endfor %}
 		</select>
+		<input type="hidden" id="{{ name }}_valid" name="{{ name }}_valid" value="false">
 	</div>
 {% endmacro %}
 
 {% macro selectFromSimpleArray(name, label, selectOptions, options = []) %}
 	<div class="form-group {{ options.class }}">
 		<label for="{{ name }}">{{ label }}</label>
-		<select name="{{ name }}{{ options.multiple ? "[]" : "" }}" class="form-control" {{ options.multiple ? "multiple" : "" }}>
+		<select name="{{ name }}{{ options.multiple ? '[]' : '' }}" class="form-control" {{ options.multiple ? 'multiple' : '' }}>
 			{% if options.insertBlank %}
 			<option selected="true"></option>
 			{% endif %}
@@ -66,7 +67,8 @@
 {% macro inputFileImg(name, label, img, options = []) %}
 	<div class="form-group {{ options.class }} file-container">	
 		<label for="{{ name }}">{{ label }}</label>
-		<input type="file" name="{{ name }}" class="file-input {{ options.inputClass }}" />
+		<input type="file" name="{{ name }}" class="file-input {{ options.required == 'true' ? 'required': '' }} {{ options.inputClass }}" />
+		<input type="hidden" id="{{ name }}_valid" name="{{ name }}_valid" value="{{ options.valid }}" />
 		<div class="upload">
 			<span class="fa fa-picture-o icon"></span>
 			<div id="preview" style="background-image: url('{{ img }}')"></div>

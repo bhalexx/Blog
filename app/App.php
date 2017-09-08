@@ -36,8 +36,8 @@
 			//Blog
 			$router->get('/blog', 'BlogPost#index');
 			//Single blog post
-			$router->get('/blog/post/:id', 'BlogPost#getSingleBlogPost')->with('id', '[0-9]+');
-			$router->post('/blog/post/:id', 'BlogPost#getSingleBlogPost')->with('id', '[0-9]+');
+			$router->get('/blog/post/:id', 'BlogPost#getSingle')->with('id', '[0-9]+');
+			$router->post('/blog/post/:id', 'BlogPost#getSingle')->with('id', '[0-9]+');
 			$router->get('/blog/post/like/:id', 'BlogPost#like')->with('id', '[0-9]+');
 			//Tags
 			$router->get('/blog/tags/:id', 'Tag#showBlogPostsList')->with('id', '[0-9]+');
