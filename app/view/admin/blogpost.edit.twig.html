@@ -55,6 +55,9 @@
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
 				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.mainPicture, { class: 'filled', valid: 'true', required: 'false' }) }}
 				{{ form.input('author', 'Auteur', { value: post.author }) }}
+				<p>
+					<b>Options :</b>
+				</p>
 				{{ form.checkbox('visible', 'Rendre public', { checked: post.visible }) }}
 				{{ form.checkbox('commentsEnabled', 'Activer commentaires', { checked: post.commentsEnabled }) }}
 				<div class="hidden-md hidden-lg">

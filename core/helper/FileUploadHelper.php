@@ -82,7 +82,9 @@
 		 * Gets file extension
 		 */
 		public function getFileExtension($file) {
-			$ext = pathinfo($file['name'], PATHINFO_EXTENSION);	
+			$file = isset($file['name']) ? $file['name'] : $file;
+
+			$ext = pathinfo($file, PATHINFO_EXTENSION);	
 		    return $ext;
 		}
 }
