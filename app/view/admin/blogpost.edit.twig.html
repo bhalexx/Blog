@@ -3,7 +3,7 @@
 {% import 'templates/form.twig.html' as form %}
 
 {% block headtitle %}
-	Modifier l'article : {{ post.title }}
+	Modifier l'article : {{ post.getTitle() }}
 {% endblock %}
 
 {% block scripts %}
@@ -26,13 +26,13 @@
 				<span class="fa fa-list"></span> Retour à la liste
 			</a>
 			<h2>
-				Modifier l'article : {{ post.title }}
-				<a href="{{ base_url }}blog/post/{{ post.id }}" target="_blank" title="Voir l'article">
+				Modifier l'article : {{ post.getTitle() }}
+				<a href="{{ base_url }}blog/post/{{ post.getId() }}" target="_blank" title="Voir l'article">
 					<span class="fa fa-external-link"></span>
 				</a>
 			</h2>
 			<p class="text-right">
-				<small class="text-right">Dernière modification : {{ post.dateUpdate }}</small>
+				<small class="text-right">Dernière modification : {{ post.getDateUpdate() }}</small>
 			</p>
 			<p>
 				Remplissez le formulaire ci-dessous pour modifier un article.
@@ -41,11 +41,11 @@
 	</div>
 	<hr />
 	<div class="row blogpost-form">
-		<form method="POST" action="{{ base_url }}admin/post/edit/{{ post.id }}" class="form" enctype="multipart/form-data">
+		<form method="POST" action="{{ base_url }}admin/post/edit/{{ post.getId() }}" class="form" enctype="multipart/form-data">
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: post.title } ) }}
-				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: post.hook }) }}
-				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: post.HTMLContent }) }}
+				{{ form.input('title', 'Titre', { class: 'col-xs-12', value: post.getTitle() } ) }}
+				{{ form.textarea('hook', 'Chapô', { class: 'col-xs-12', value: post.getHook() }) }}
+				{{ form.textarea('content', 'Contenu', { class: 'col-xs-12', value: post.getHTMLContent() }) }}
 				{{ form.select('tags', 'Tags (max. 3)', tags, 'id', 'label', { class: 'col-xs-12', multiple: true, insertBlank: false }) }}
 				{{ form.hiddenInput('token', token) }}
 				<div class="hidden-xs hidden-sm">
@@ -53,13 +53,13 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.mainPicture, { class: 'filled', valid: 'true', required: 'false' }) }}
-				{{ form.input('author', 'Auteur', { value: post.author }) }}
+				{{ form.inputFileImg('picture', 'Image principale', base_url~picture_repository~post.getMainPicture(), { class: 'filled', valid: 'true', required: 'false' }) }}
+				{{ form.input('author', 'Auteur', { value: post.getAuthor() }) }}
 				<p>
 					<b>Options :</b>
 				</p>
-				{{ form.checkbox('visible', 'Rendre public', { checked: post.visible }) }}
-				{{ form.checkbox('commentsEnabled', 'Activer commentaires', { checked: post.commentsEnabled }) }}
+				{{ form.checkbox('visible', 'Rendre public', { checked: post.getVisible() }) }}
+				{{ form.checkbox('commentsEnabled', 'Activer commentaires', { checked: post.getCommentsEnabled() }) }}
 				<div class="hidden-md hidden-lg">
 					{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
 				</div>
@@ -87,7 +87,7 @@
 								<form method="POST" action="{{ base_url }}admin/comments/validate">
 									{{ form.hiddenInput('comment_id', comment.id) }}
 									{{ form.hiddenInput('from', 'blogpostEdit') }}
-									{{ form.hiddenInput('blogPostId', post.id) }}
+									{{ form.hiddenInput('blogPostId', post.getId()) }}
 									{{ form.hiddenInput('token', token) }}
 									<button type="submit" class="btn btn-success">
 										<span class="fa fa-check"></span> Valider
@@ -97,7 +97,7 @@
 							<form method="POST" action="{{ base_url }}admin/comments/delete">
 								{{ form.hiddenInput('comment_id', comment.id) }}
 								{{ form.hiddenInput('from', 'blogpostEdit') }}
-								{{ form.hiddenInput('blogPostId', post.id) }}
+								{{ form.hiddenInput('blogPostId', post.getId()) }}
 								{{ form.hiddenInput('token', token) }}
 								<button type="submit" class="btn btn-danger">
 									<span class="fa fa-trash"></span> Supprimer

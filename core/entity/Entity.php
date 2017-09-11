@@ -6,7 +6,7 @@
 
 		use \Core\Hydrator;
 
-		protected $id;
+		private $id;
 
 		public function __construct($data = []) {
 			if (!empty($data)) {

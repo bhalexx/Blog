@@ -3,7 +3,7 @@
 {% import 'templates/form.twig.html' as form %}
 
 {% block headtitle %}
-	Modifier le tag : {{ tag.label }}
+	Modifier le tag : {{ tag.getLabel() }}
 {% endblock %}
 
 {% block scripts %}
@@ -26,7 +26,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<form method="POST" action="" class="form">
-				{{ form.input('label', 'Nom du tag', { class: 'col-xs-12', value: tag.label }) }}
+				{{ form.input('label', 'Nom du tag', { class: 'col-xs-12', value: tag.getLabel() }) }}
 				{{ form.hiddenInput('token', token) }}
 				{{ form.submit('Sauvegarder', { class: 'col-xs-12', inputClass: 'btn btn-primary submit' }) }}
 			</form>

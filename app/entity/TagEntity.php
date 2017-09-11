@@ -6,7 +6,7 @@
 
 	class TagEntity extends Entity {
 
-		protected $label;
+		private $label;
 
 		//GETTERS
 		/**

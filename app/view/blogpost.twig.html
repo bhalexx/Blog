@@ -3,23 +3,23 @@
 {% import 'templates/form.twig.html' as form %}
 
 {% block headtitle %}
-    {{ post.title }}
+    {{ post.getTitle() }}
 {% endblock %}
 
 {% block metaDescription %}
-{{ post.hook }}
+{{ post.getHook() }}
 {% endblock %}
 
 {% block headerImage %}
-    <div class="cover" style="background-image: url('{{ base_url }}public/img/repository/{{ post.mainPicture }}');"></div>
+    <div class="cover" style="background-image: url('{{ base_url }}public/img/repository/{{ post.getMainPicture() }}');"></div>
 {% endblock %}
 
 {% block title %}
-    {{ post.title }}
+    {{ post.getTitle() }}
 {% endblock %}
 
 {% block grip %}
-    {{ post.hook }}
+    {{ post.getHook() }}
 {% endblock %}
 
 {% block scripts %}
@@ -36,45 +36,45 @@
         <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <div class="text-right">
                 <span class="small text-muted">
-                    Par <em>{{ post.author }}</em>
+                    Par <em>{{ post.getAuthor() }}</em>
                 </span>
                 <br/>
                 <span class="small text-muted">
-                    Mis à jour le {{ post.dateUpdate }}
+                    Mis à jour le {{ post.getDateUpdate() }}
                 </span>
             </div>
-            <h2 class="section-heading">{{ post.title }}</h2>
+            <h2 class="section-heading">{{ post.getTitle() }}</h2>
             <ul class="list-inline">
                 {% for tag in tags %}
                     <li class="small">
-                        <a href="{{ base_url }}{{ tag.url }}" class="text-primary"><span class="fa fa-tag"></span> {{ tag.label }}</a>
+                        <a href="{{ base_url }}{{ tag.getUrl }}" class="text-primary"><span class="fa fa-tag"></span> {{ tag.getLabel() }}</a>
                     </li>
                 {% endfor %}
             </ul>
             <div class="well">
-                {{ post.hook }}
+                {{ post.getHook() }}
             </div>
             <hr/>
-            {{ post.HTMLContent | raw }}
+            {{ post.getHTMLContent | raw }}
             <div class="col-xs-6">
-                <a href="{{ base_url }}blog/post/like/{{ post.id }}" class="btn btn-default">
+                <a href="{{ base_url }}blog/post/like/{{ post.getId() }}" class="btn btn-default">
                     <span class="fa fa-heart"></span> J'aime
-                    {% if post.nbLikes > 0 %}
-                        ({{ post.nbLikes }})
+                    {% if post.getNbLikes() > 0 %}
+                        ({{ post.getNbLikes() }})
                     {% endif %}
                 </a>
             </div>            
             <div class="col-xs-6 text-right">
-                <a href="{{ base_url }}admin/post/edit/{{ post.id }}" class="btn btn-default">Modifier</a>
+                <a href="{{ base_url }}admin/post/edit/{{ post.getId() }}" class="btn btn-default">Modifier</a>
             </div>
         </div>
     </div>
     
-    {% if post.commentsEnabled %}
+    {% if post.getCommentsEnabled() %}
         <hr />
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <h3 class="section-heading">Commentaires ({{ post.nbComments }})</h3>            
+                <h3 class="section-heading">Commentaires ({{ post.getNbComments() }})</h3>            
                 {% if comments is empty %}
                     <p class="h4">Cet article ne comporte encore aucun commentaire. Soyez le premier à en écrire un :)</p>                
                 {% endif %}
@@ -94,7 +94,7 @@
                 <form method="POST" action="">
                     {{ form.input('author', 'Votre nom/pseudo') }}
                     {{ form.textarea('content', 'Votre commentaire') }}
-                    {{ form.hiddenInput('blogPostId', post.id) }}
+                    {{ form.hiddenInput('blogPostId', post.getId()) }}
                     {{ form.hiddenInput('token', token) }}
                     {{ form.submit('Envoyer', { inputClass: 'btn btn-primary submit' }) }}
                 </form>

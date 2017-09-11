@@ -29,7 +29,7 @@ Retrouvez la liste des articles présents sur ce blog.
 				{% for tag in tags %}
 					<li>
 						<a href="{{ base_url }}{{ tag.getUrl() }}">
-							<span class="label label-primary">{{ tag.label }} <small>({{ tag.nb_blogposts }})</small></span>
+							<span class="label label-primary">{{ tag.getLabel() }} <small>({{ tag.nb_blogposts }})</small></span>
 						</a>					 
 					</li>
 				{% endfor %}
@@ -46,16 +46,16 @@ Retrouvez la liste des articles présents sur ce blog.
 					{% for post in posts %}
 						<div class="col-sm-6 col-md-4 col-lg-4 post">
 							<div class="wrapper">
-								<a href="{{ base_url }}{{ post.getUrl() }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.mainPicture }}');" class="cover-img">
+								<a href="{{ base_url }}{{ post.getUrl() }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.getMainPicture() }}');" class="cover-img">
 								</a>
 								<div class="text">
 									<h3>
 										<a href="{{ base_url }}{{ post.getUrl() }}">
-											{{ post.title }}
+											{{ post.getTitle() }}
 										</a>					
 									</h3>
-									<span class="small text-muted">Mis à jour le {{ post.dateUpdate }}</span>
-									<p>{{ post.hook }}</p>
+									<span class="small text-muted">Mis à jour le {{ post.getDateUpdate() }}</span>
+									<p>{{ post.getHook() }}</p>
 									<a href="{{ base_url }}{{ post.getUrl() }}" class="more">
 										<span class="label label-primary">Lire la suite</span>
 									</a>
