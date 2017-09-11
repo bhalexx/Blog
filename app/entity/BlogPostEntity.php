@@ -6,18 +6,18 @@
 	use App\Entity\TagEntity;
 
 	class BlogPostEntity extends Entity {
-		protected $title;
-		protected $hook;
-		protected $content;
-		protected $author;
-		protected $dateInsert;
-		protected $dateUpdate;
-		protected $mainPicture;
-		protected $nbLikes;
-		protected $visible;
-		protected $commentsEnabled;
-		protected $nbComments;
-		protected $tags = [];
+		private $title;
+		private $hook;
+		private $content;
+		private $author;
+		private $dateInsert;
+		private $dateUpdate;
+		private $mainPicture;
+		private $nbLikes;
+		private $visible;
+		private $commentsEnabled;
+		private $nbComments;
+		private $tags = [];
 
 		//GETTERS
 		/**

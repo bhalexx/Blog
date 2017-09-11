@@ -40,14 +40,14 @@
 					<tbody>
 						{% for tag in tags %}
 						<tr>
-							<td>{{ tag.label }}</td>
+							<td>{{ tag.getLabel() }}</td>
 							<td class="text-center">{{ tag.nb_blogposts }}</td>
 							<td class="options">
-								<a href="{{ base_url }}admin/tags/edit/{{ tag.id }}" class="btn btn-warning">
+								<a href="{{ base_url }}admin/tags/edit/{{ tag.getId() }}" class="btn btn-warning">
 									<span class="fa fa-pencil"></span> Modifier
 								</a>
 								<form method="POST" action="{{ base_url }}admin/tags/delete/">
-									{{ form.hiddenInput('id', tag.id) }}
+									{{ form.hiddenInput('id', tag.getId()) }}
 									{{ form.hiddenInput('token', token) }}
 									<button class="btn btn-danger">
 										<span class="fa fa-trash"></span> Supprimer

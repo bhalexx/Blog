@@ -5,11 +5,11 @@
 	use \Core\Entity\Entity;
 
 	class CommentEntity extends Entity {
-		protected $content;
-		protected $author;
-		protected $blogPostId;
-		protected $published;
-		protected $dateInsert;
+		private $content;
+		private $author;
+		private $blogPostId;
+		private $published;
+		private $dateInsert;
 
 		//GETTERS
 		/**

@@ -1,11 +1,11 @@
 {% extends 'layout.twig.html' %}
 
 {% block headtitle %}
-	Tag : {{ tag.label }}
+	Tag : {{ tag.getLabel() }}
 {% endblock %}
 
 {% block metaDescription %}
-Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
+Retrouvez la liste des articles présents sur ce blog du tag {{ tag.getLabel() }}.
 {% endblock %}
 
 {% block headerImage %}
@@ -13,11 +13,11 @@ Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
 {% endblock %}
 
 {% block title %}
-	{{ tag.label }}
+	{{ tag.getLabel() }}
 {% endblock %}
 
 {% block grip %}
-	Articles correspondant au tag "{{ tag.label }}"
+	Articles correspondant au tag "{{ tag.getLabel() }}"
 {% endblock %}
 
 {% block content %}
@@ -33,22 +33,22 @@ Retrouvez la liste des articles présents sur ce blog du tag {{ tag.label }}.
 			{% endif %}
 
 			{% if posts is not empty %}
-				<p class="text-center"><span class="fa fa-tag"></span> Retrouvez ci-dessous les articles associés au tag "{{ tag.label }}".</p>
+				<p class="text-center"><span class="fa fa-tag"></span> Retrouvez ci-dessous les articles associés au tag "{{ tag.getLabel() }}".</p>
 				<div class="posts">
 					{% for post in posts %}
 						<div class="col-sm-6 col-md-4 col-lg-4 post">
 							<div class="wrapper">
-								<a href="{{ base_url }}{{ post.url }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.mainPicture }}');" class="cover-img">
+								<a href="{{ base_url }}{{ post.getUrl() }}" style="background-image: url('{{ base_url }}{{ picture_repository }}{{ post.getMainPicture() }}');" class="cover-img">
 								</a>
 								<div class="text">
 									<h3>
-										<a href="{{ base_url }}{{ post.url }}">
-											{{ post.title }}
+										<a href="{{ base_url }}{{ post.getUrl() }}">
+											{{ post.getTitle() }}
 										</a>					
 									</h3>
-									<span class="small text-muted">Mis à jour le {{ post.dateUpdate }}</span>
-									<p>{{ post.hook }}</p>
-									<a href="{{ base_url }}{{ post.url }}" class="more">
+									<span class="small text-muted">Mis à jour le {{ post.getDateUpdate() }}</span>
+									<p>{{ post.getHook() }}</p>
+									<a href="{{ base_url }}{{ post.getUrl() }}" class="more">
 										<span class="label label-primary">Lire la suite</span>
 									</a>
 								</div>
